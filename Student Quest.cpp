@@ -18,16 +18,47 @@
 
 void mainMenu()
 {
-    std::cout << "-----------------------" << std::endl;
-    std::cout << "| [1] Start new game. |" << std::endl;
-    std::cout << "| [2] Load game.      |" << std::endl;
-    std::cout << "| [3] Help            |" << std::endl;
-    std::cout << "-----------------------";
+    std::cout << " -----------------------" << std::endl;
+    std::cout << "| [1] Start new game.   |" << std::endl;
+    std::cout << "| [2] Load game.        |" << std::endl;
+    std::cout << "| [3] Help              |" << std::endl;
+    std::cout << " -----------------------" << std::endl;;
+}
+
+void helpMenu()
+{
+
+}
+
+void gameloop()
+{
+
 }
 
 int main()
 {
     mainMenu();
+    while (true)
+    {
+        int choice;
+        std::cin >> choice;
+        if (choice == 1)
+        {
+            gameloop();
+        }
+        else if (choice == 2)
+        {
+            gameloop();
+        }
+        else if (choice == 3)
+        {
+
+        }
+        else
+        {
+            helpMenu();
+        }
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
