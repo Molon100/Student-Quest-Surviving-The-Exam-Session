@@ -16,13 +16,21 @@
 
 #include <iostream>
 
+int currentDay = 0;
+int knowledge = 0;
+int psyche = 0;
+int energy = 0;
+//going to implement randomness later
+int luck = 0;
+int examNumber = 0;
+
 void mainMenu()
 {
     std::cout << " -----------------------" << std::endl;
     std::cout << "| [1] Start new game.   |" << std::endl;
     std::cout << "| [2] Load game.        |" << std::endl;
     std::cout << "| [3] Help              |" << std::endl;
-    std::cout << " -----------------------" << std::endl;;
+    std::cout << " -----------------------" << std::endl;
 }
 
 void helpMenu()
@@ -30,9 +38,18 @@ void helpMenu()
 
 }
 
-void gameloop()
+void loadGame()
 {
 
+}
+
+void gameloop()
+{
+    currentDay++;
+    while (currentDay > 45)
+    {
+
+    }
 }
 
 int main()
@@ -48,6 +65,7 @@ int main()
         }
         else if (choice == 2)
         {
+            loadGame();
             gameloop();
         }
         else if (choice == 3)
