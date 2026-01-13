@@ -20,6 +20,8 @@
 
 std::mt19937 randomGenerator(std::random_device{}());
 
+const int CAPACITY = 1024;
+
 int currentDay = 1;
 int knowledge = 0;
 int money = 0;
@@ -29,6 +31,47 @@ int energy = 0;
 int luck = randomGenerator() % 101;
 int fourthExamDate = luck % 18 + 27;
 int examNumber = 1;
+
+size_t myStrlen(const char* str)
+{
+    if (!str)
+        return 0;
+
+    unsigned result = 0;
+
+    while (*str)
+    {
+        result++;
+        str++;
+    }
+
+    return result;
+}
+
+void myStrcpy(char* dest, const char* source)
+{
+    if (!source)
+        return;
+
+    while (*source)
+    {
+        *dest = *source;
+        dest++;
+        source++;
+    }
+
+    *dest = '\0';
+}
+
+void myStrcat(char* dest, const char* source)
+{
+    if (!dest || !source)
+        return;
+
+    size_t firstLen = myStrlen(dest);
+    dest += firstLen;
+    myStrcpy(dest, source);
+}
 
 void mainMenu()
 {
@@ -73,9 +116,10 @@ void newGame()
 }
 
 
-void saveGame()
+void saveGame(char* fileName)
 {
-    std::ofstream out("saveFile.txt");
+    myStrcat(fileName, ".txt");
+    std::ofstream out(fileName);
     if (!out)
     {
         std::cout << "Failed to save game" << std::endl;
@@ -83,7 +127,7 @@ void saveGame()
     }
 
     out << currentDay << std::endl;
-    out << knowledge << ' ' << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
+    out << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
     out << examNumber << ' ' << fourthExamDate << std::endl;
     out.close();
     std::cout << "Game saved";
@@ -243,7 +287,10 @@ void actionMenuChoice(int choice)
             psyche -= 10;
             break;
         case 6:
-            saveGame();
+            std::cout << "Set a name for your save: ";
+            char name[CAPACITY];
+            std::cin >> name;
+            saveGame(name);
             exit(0);
             break;
     default:
@@ -273,6 +320,8 @@ void gameloop()
 {
     while (currentDay <= 45)
     {
+        char autosave[CAPACITY] = "autosave";
+        saveGame(autosave);
         std::cout << " Day " << currentDay << std::endl;
         if (currentDay == 8 || currentDay == 17 || currentDay == 26 || currentDay == fourthExamDate || currentDay == 45)
         {
