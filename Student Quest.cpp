@@ -28,7 +28,7 @@ int energy = 0;
 //going to implement randomness later
 int luck = randomGenerator() % 101;
 int fourthExamDate = luck % 18 + 27;
-int examNumber = 0;
+int examNumber = 1;
 
 void mainMenu()
 {
@@ -208,7 +208,6 @@ void partyMenu()
 
 void actionMenuText()
 {
-    std::cout << " Day " << currentDay << std::endl;
     std::cout << " --------------------------" << std::endl;
     std::cout << "| What action will         |   Knowledge: " << knowledge << std::endl;
     std::cout << "| you choose?              |   Energy:    " << energy << std::endl;
@@ -253,14 +252,42 @@ void actionMenuChoice(int choice)
 }
 
 
+bool takeExam()
+{
+    int penalty = (examNumber - 1) * 5;
+    double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
+    if (examPoints >= 75)
+    {
+        std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
+        energy -= 20;
+        return true;
+    }
+    else
+    {
+        std::cout << "Exam #" << examNumber << " has been failed!" << std::endl;
+        return false;
+    }
+}
+
 void gameloop()
 {
     while (currentDay <= 45)
     {
-        actionMenuText();
-        int choice;
-        std::cin >> choice;
-        actionMenuChoice(choice);
+        std::cout << " Day " << currentDay << std::endl;
+        if (currentDay == 8 || currentDay == 17 || currentDay == 26 || currentDay == fourthExamDate || currentDay == 45)
+        {
+            if (!takeExam())
+            {
+                return;
+            }
+        }
+        else
+        {
+            int choice;
+            actionMenuText();
+            std::cin >> choice;
+            actionMenuChoice(choice);
+        }
         currentDay++;
         randomGenerator.seed(std::random_device{}());
         luck = randomGenerator() % 101;
@@ -278,11 +305,13 @@ int main()
         {
             newGame();
             gameloop();
+            break;
         }
         else if (choice == 2)
         {
             loadGame();
             gameloop();
+            break;
         }
         else if (choice == 3)
         {
