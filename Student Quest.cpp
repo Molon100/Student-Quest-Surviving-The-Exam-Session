@@ -39,19 +39,65 @@ void helpMenu()
 
 }
 
-void actionMenu()
+void studyMenu()
+{
+    std::cout << " --------------------------" << std::endl;
+    std::cout << "| How will you study       |   Knowledge: " << knowledge << std::endl;
+    std::cout << "| today?                   |   Energy:    " << energy << std::endl;
+    std::cout << "| [1] Go to lecture        |   Psyche:    " << psyche << std::endl;
+    std::cout << "| [2] Study at home        |   Money:     " << money << std::endl;
+    std::cout << "| [3] Study with friends   |" << std::endl;
+    std::cout << " --------------------------" << std::endl;
+
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        knowledge += 20;
+        energy -= 20;
+        psyche -= 10;
+        break;
+    case 2:
+        knowledge += 15;
+        energy -= 15;
+        psyche -= 20;
+        break;
+    case 3:
+        knowledge += 5;
+        energy -= 10;
+        psyche += 10;
+        break;
+    default:
+        break;
+    }
+}
+
+void actionMenuText()
 {
     std::cout << " Day " << currentDay << std::endl;
     std::cout << " --------------------------" << std::endl;
     std::cout << "| What action will         |   Knowledge: " << knowledge << std::endl;
-    std::cout << "| you choose?              |   Energy:    " << knowledge<< std::endl;
-    std::cout << "| [1] Study                |   Psyche:    " << knowledge << std::endl;
-    std::cout << "| [2] Eat                  |   Money:     " << knowledge << std::endl;
+    std::cout << "| you choose?              |   Energy:    " << energy << std::endl;
+    std::cout << "| [1] Study                |   Psyche:    " << psyche << std::endl;
+    std::cout << "| [2] Eat                  |   Money:     " << money << std::endl;
     std::cout << "| [3] Go out               |" << std::endl;
     std::cout << "| [4] Take a break         |" << std::endl;
     std::cout << "| [5] Go to part-time work |" << std::endl;
     std::cout << "| [6] Quit game            |" << std::endl;
     std::cout << " --------------------------" << std::endl;
+}
+
+void actionMenuChoice(int choice)
+{
+    switch (choice)
+    {
+        case 1:
+            studyMenu();
+            break;
+    default:
+        break;
+    }
 }
 
 
@@ -97,9 +143,10 @@ void gameloop()
 {
     while (currentDay <= 45)
     {
-        actionMenu();
+        actionMenuText();
         int choice;
         std::cin >> choice;
+        actionMenuChoice(choice);
         currentDay++;
     }
 }
