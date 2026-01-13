@@ -38,6 +38,21 @@ void helpMenu()
 
 }
 
+void actionMenu()
+{
+    std::cout << " --------------------------" << std::endl;
+    std::cout << "| What action will         |" << std::endl;
+    std::cout << "| you choose?              |" << std::endl;
+    std::cout << "| [1] Study                |" << std::endl;
+    std::cout << "| [2] Eat                  |" << std::endl;
+    std::cout << "| [3] Go out               |" << std::endl;
+    std::cout << "| [4] Take a break         |" << std::endl;
+    std::cout << "| [5] Go to part-time work |" << std::endl;
+    std::cout << "| [6] Quit game            |" << std::endl;
+    std::cout << " --------------------------" << std::endl;
+}
+
+
 void loadGame()
 {
 
@@ -46,9 +61,11 @@ void loadGame()
 void gameloop()
 {
     currentDay++;
-    while (currentDay > 45)
+    while (currentDay < 45)
     {
-
+        actionMenu();
+        int choice;
+        std::cin >> choice;
     }
 }
 
@@ -70,11 +87,11 @@ int main()
         }
         else if (choice == 3)
         {
-
+            helpMenu();
         }
         else
         {
-            helpMenu();
+
         }
     }
 }
