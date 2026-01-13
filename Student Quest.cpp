@@ -15,6 +15,9 @@
 
 
 #include <iostream>
+#include <random>
+
+std::mt19937 randomGenerator(std::random_device{}());
 
 int currentDay = 1;
 int knowledge = 0;
@@ -22,7 +25,8 @@ int money = 0;
 int psyche = 0;
 int energy = 0;
 //going to implement randomness later
-int luck = 0;
+int luck = randomGenerator() % 101;
+int fourthExamDate = luck % 18 + 27;
 int examNumber = 0;
 
 void mainMenu()
@@ -225,6 +229,8 @@ void gameloop()
         std::cin >> choice;
         actionMenuChoice(choice);
         currentDay++;
+        randomGenerator.seed(std::random_device{}());
+        luck = randomGenerator() % 101;
     }
 }
 
