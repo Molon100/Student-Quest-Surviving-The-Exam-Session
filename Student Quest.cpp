@@ -73,6 +73,40 @@ void studyMenu()
     }
 }
 
+void eatMenu()
+{
+    std::cout << " --------------------------" << std::endl;
+    std::cout << "| Where will you eat       |   Knowledge: " << knowledge << std::endl;
+    std::cout << "| today?                   |   Energy:    " << energy << std::endl;
+    std::cout << "| [1] At the canteen       |   Psyche:    " << psyche << std::endl;
+    std::cout << "| [2] Doner kebap          |   Money:     " << money << std::endl;
+    std::cout << "| [3] Get a pizza          |" << std::endl;
+    std::cout << " --------------------------" << std::endl;
+
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        energy += 20;
+        money -= 10;
+        psyche += 5;
+        break;
+    case 2:
+        energy += 25;
+        money -= 15;
+        psyche += 10;
+        break;
+    case 3:
+        energy += 30;
+        money -= 20;
+        psyche += 10;
+        break;
+    default:
+        break;
+    }
+}
+
 void actionMenuText()
 {
     std::cout << " Day " << currentDay << std::endl;
@@ -94,6 +128,9 @@ void actionMenuChoice(int choice)
     {
         case 1:
             studyMenu();
+            break;
+        case 2:
+            eatMenu();
             break;
     default:
         break;
