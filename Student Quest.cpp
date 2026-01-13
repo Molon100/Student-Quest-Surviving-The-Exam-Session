@@ -91,7 +91,18 @@ void saveGame()
 
 void loadGame()
 {
+    std::ifstream in("saveFile.txt");
+    if (!in)
+    {
+        std::cout << "Failed to load game" << std::endl;
+        exit(0);
+    }
 
+    in >> currentDay;
+    in >> knowledge >> knowledge >> money >> psyche >> energy;
+    in >> examNumber >> fourthExamDate;
+    in.close();
+    std::cout << "Game loaded";
 }
 
 void helpMenu()
