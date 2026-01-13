@@ -130,23 +130,25 @@ void saveGame(char* fileName)
     out << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
     out << examNumber << ' ' << fourthExamDate << std::endl;
     out.close();
-    std::cout << "Game saved";
+    std::cout << "Game saved" << std::endl;
 }
 
-void loadGame()
+bool loadGame(char* fileName)
 {
-    std::ifstream in("saveFile.txt");
+    myStrcat(fileName, ".txt");
+    std::ifstream in(fileName);
     if (!in)
     {
         std::cout << "Failed to load game" << std::endl;
-        exit(0);
+        return false;
     }
 
     in >> currentDay;
     in >> knowledge >> knowledge >> money >> psyche >> energy;
     in >> examNumber >> fourthExamDate;
     in.close();
-    std::cout << "Game loaded";
+    std::cout << "Game loaded" << std::endl;
+    return true;
 }
 
 void helpMenu()
@@ -358,7 +360,14 @@ int main()
         }
         else if (choice == 2)
         {
-            loadGame();
+            std::cout << "Load file with name(without whitespace): ";
+            char name[1024];
+            std::cin >> name;
+            while (!loadGame(name))
+            {
+                std::cout << "Load file with name(without whitespace): ";
+                std::cin >> name;
+            }
             gameloop();
             break;
         }
