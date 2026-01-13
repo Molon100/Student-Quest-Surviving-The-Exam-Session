@@ -15,6 +15,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include <random>
 
 std::mt19937 randomGenerator(std::random_device{}());
@@ -36,6 +37,61 @@ void mainMenu()
     std::cout << "| [2] Load game.        |" << std::endl;
     std::cout << "| [3] Help              |" << std::endl;
     std::cout << " -----------------------" << std::endl;
+}
+
+void newGame()
+{
+    std::cout << "  [1] Easy         " << std::endl;
+    std::cout << "  [2] Normal       " << std::endl;
+    std::cout << "  [3] Hard         " << std::endl;
+    std::cout << "Choose difficulty: ";
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        knowledge = 80;
+        money = 100;
+        psyche = 100;
+        energy = 100;
+        break;
+    case 2:
+        knowledge = 50;
+        money = 80;
+        psyche = 80;
+        energy = 80;
+        break;
+    case 3:
+        knowledge = 35;
+        money = 60;
+        psyche = 60;
+        energy = 40;
+        break;
+    default:
+        break;
+    }
+}
+
+
+void saveGame()
+{
+    std::ofstream out("saveFile.txt");
+    if (!out)
+    {
+        std::cout << "Failed to save game" << std::endl;
+        return;
+    }
+
+    out << currentDay << std::endl;
+    out << knowledge << ' ' << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
+    out << examNumber << ' ' << fourthExamDate << std::endl;
+    out.close();
+    std::cout << "Game saved";
+}
+
+void loadGame()
+{
+
 }
 
 void helpMenu()
@@ -176,49 +232,15 @@ void actionMenuChoice(int choice)
             energy -= 20;
             psyche -= 10;
             break;
+        case 6:
+            saveGame();
+            exit(0);
+            break;
     default:
         break;
     }
 }
 
-
-void newGame()
-{
-    std::cout << "  [1] Easy         " << std::endl;
-    std::cout << "  [2] Normal       " << std::endl;
-    std::cout << "  [3] Hard         " << std::endl;
-    std::cout << "Choose difficulty: ";
-    int choice;
-    std::cin >> choice;
-    switch (choice)
-    {
-    case 1:
-        knowledge = 80;
-        money = 100;
-        psyche = 100;
-        energy = 100;
-        break;
-    case 2:
-        knowledge = 50;
-        money = 80;
-        psyche = 80;
-        energy = 80;
-        break;
-    case 3:
-        knowledge = 35;
-        money = 60;
-        psyche = 60;
-        energy = 40;
-        break;
-    default:
-        break;
-    }
-}
-
-void loadGame()
-{
-
-}
 
 void gameloop()
 {
