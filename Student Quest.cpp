@@ -16,8 +16,9 @@
 
 #include <iostream>
 
-int currentDay = 0;
+int currentDay = 1;
 int knowledge = 0;
+int money = 0;
 int psyche = 0;
 int energy = 0;
 //going to implement randomness later
@@ -40,6 +41,7 @@ void helpMenu()
 
 void actionMenu()
 {
+    std::cout << " Day " << currentDay << std::endl;
     std::cout << " --------------------------" << std::endl;
     std::cout << "| What action will         |" << std::endl;
     std::cout << "| you choose?              |" << std::endl;
@@ -53,6 +55,39 @@ void actionMenu()
 }
 
 
+void newGame()
+{
+    std::cout << "  [1] Easy         " << std::endl;
+    std::cout << "  [2] Normal       " << std::endl;
+    std::cout << "  [3] Hard         " << std::endl;
+    std::cout << "Choose difficulty: ";
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        knowledge = 80;
+        money = 100;
+        psyche = 100;
+        energy = 100;
+        break;
+    case 2:
+        knowledge = 50;
+        money = 80;
+        psyche = 80;
+        energy = 80;
+        break;
+    case 3:
+        knowledge = 35;
+        money = 60;
+        psyche = 60;
+        energy = 40;
+        break;
+    default:
+        break;
+    }
+}
+
 void loadGame()
 {
 
@@ -60,12 +95,12 @@ void loadGame()
 
 void gameloop()
 {
-    currentDay++;
-    while (currentDay < 45)
+    while (currentDay <= 45)
     {
         actionMenu();
         int choice;
         std::cin >> choice;
+        currentDay++;
     }
 }
 
@@ -78,6 +113,7 @@ int main()
         std::cin >> choice;
         if (choice == 1)
         {
+            newGame();
             gameloop();
         }
         else if (choice == 2)
