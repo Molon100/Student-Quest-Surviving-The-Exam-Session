@@ -43,10 +43,10 @@ void actionMenu()
 {
     std::cout << " Day " << currentDay << std::endl;
     std::cout << " --------------------------" << std::endl;
-    std::cout << "| What action will         |" << std::endl;
-    std::cout << "| you choose?              |" << std::endl;
-    std::cout << "| [1] Study                |" << std::endl;
-    std::cout << "| [2] Eat                  |" << std::endl;
+    std::cout << "| What action will         |   Knowledge: " << knowledge << std::endl;
+    std::cout << "| you choose?              |   Energy:    " << knowledge<< std::endl;
+    std::cout << "| [1] Study                |   Psyche:    " << knowledge << std::endl;
+    std::cout << "| [2] Eat                  |   Money:     " << knowledge << std::endl;
     std::cout << "| [3] Go out               |" << std::endl;
     std::cout << "| [4] Take a break         |" << std::endl;
     std::cout << "| [5] Go to part-time work |" << std::endl;
