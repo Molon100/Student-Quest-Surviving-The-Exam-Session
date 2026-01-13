@@ -163,6 +163,15 @@ void actionMenuChoice(int choice)
         case 3:
             partyMenu();
             break;
+        case 4:
+            energy += 50;
+            psyche += 10;
+            break;
+        case 5:
+            money += 40;
+            energy -= 20;
+            psyche -= 10;
+            break;
     default:
         break;
     }
