@@ -29,8 +29,11 @@ int psyche = 0;
 int energy = 0;
 //going to implement randomness later
 int luck = randomGenerator() % 101;
-int fourthExamDate = luck % 18 + 27;
 int examNumber = 1;
+
+
+int fourthExamDate = luck % 18 + 27;
+int examDates[5] = { 8, 17, 26, fourthExamDate, 45};
 
 size_t myStrlen(const char* str)
 {
@@ -340,6 +343,7 @@ bool takeExam()
     if (examPoints >= 75)
     {
         std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
+        examNumber++;
         energy -= 20;
         return true;
     }
@@ -352,12 +356,18 @@ bool takeExam()
 
 void gameloop()
 {
+    const int FIRST_EXAM_DATE = examDates[0];
+    const int SECOND_EXAM_DATE = examDates[1];
+    const int THIRD_EXAM_DATE = examDates[2];
+    const int FOURTH_EXAM_DATE = examDates[3];
+    const int FIFTH_EXAM_DATE = examDates[4];
     while (currentDay <= 45)
     {
         char autosaveStr[CAPACITY] = "autosave";
         saveGame(autosaveStr);
         std::cout << " Day " << currentDay << std::endl;
-        if (currentDay == 8 || currentDay == 17 || currentDay == 26 || currentDay == fourthExamDate || currentDay == 45)
+        if (currentDay == FIRST_EXAM_DATE || currentDay == SECOND_EXAM_DATE || currentDay == THIRD_EXAM_DATE
+            || currentDay == FOURTH_EXAM_DATE || currentDay == FIFTH_EXAM_DATE)
         {
             if (!takeExam())
             {
@@ -368,6 +378,7 @@ void gameloop()
         {
             int choice;
             actionMenuText();
+            std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << "days." << std::endl;
             std::cin >> choice;
             actionMenuChoice(choice);
         }
@@ -387,6 +398,7 @@ void gameloop()
         randomGenerator.seed(std::random_device{}());
         luck = randomGenerator() % 101;
     }
+    std::cout << "Congratulations! You passed all 5 exams! And won! Yay";
 }
 
 int main()
