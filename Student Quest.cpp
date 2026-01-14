@@ -393,6 +393,9 @@ void gameloop()
         {
             return;
         }
+        knowledge -= (knowledge / 100) * (knowledge % 100);
+        psyche -= (psyche / 100) * (psyche % 100);
+        energy -= (energy / 100) * (energy % 100);
 
         currentDay++;
         randomGenerator.seed(std::random_device{}());
