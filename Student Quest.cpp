@@ -300,6 +300,20 @@ void actionMenuChoice(int choice)
     }
 }
 
+bool loseConditions()
+{
+    if (money <= 0)
+    {
+        std::cout << "You ran out of money and moved back in with your parents." << std::endl;
+        return true;
+    }
+    if (psyche <= 0)
+    {
+        std::cout << "You lost your mind and decided university isn't for you." << std::endl;
+        return true;
+    }
+    return false;
+}
 
 bool takeExam()
 {
@@ -338,6 +352,10 @@ void gameloop()
             actionMenuText();
             std::cin >> choice;
             actionMenuChoice(choice);
+        }
+        if (loseConditions())
+        {
+            return;
         }
         currentDay++;
         randomGenerator.seed(std::random_device{}());
