@@ -156,7 +156,7 @@ void helpMenu()
 
 }
 
-void studyMenu()
+void studyMenu(int partialSuccessDivider)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| How will you study       |   Knowledge: " << knowledge << std::endl;
@@ -171,26 +171,26 @@ void studyMenu()
     switch (choice)
     {
     case 1:
-        knowledge += 20;
-        energy -= 20;
-        psyche -= 10;
+        knowledge += 20 / partialSuccessDivider;
+        energy -= 20 / partialSuccessDivider;
+        psyche -= 10 / partialSuccessDivider;
         break;
     case 2:
-        knowledge += 15;
-        energy -= 15;
-        psyche -= 20;
+        knowledge += 15 / partialSuccessDivider;
+        energy -= 15 / partialSuccessDivider;
+        psyche -= 20 / partialSuccessDivider;
         break;
     case 3:
-        knowledge += 5;
-        energy -= 10;
-        psyche += 10;
+        knowledge += 5 / partialSuccessDivider;
+        energy -= 10 / partialSuccessDivider;
+        psyche += 10 / partialSuccessDivider;
         break;
     default:
         break;
     }
 }
 
-void eatMenu()
+void eatMenu(int partialSuccessDivider)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you eat       |   Knowledge: " << knowledge << std::endl;
@@ -205,26 +205,26 @@ void eatMenu()
     switch (choice)
     {
     case 1:
-        energy += 20;
-        money -= 10;
-        psyche += 5;
+        energy += 20 / partialSuccessDivider;
+        money -= 10 / partialSuccessDivider;
+        psyche += 5 / partialSuccessDivider;
         break;
     case 2:
-        energy += 25;
-        money -= 15;
-        psyche += 10;
+        energy += 25 / partialSuccessDivider;
+        money -= 15 / partialSuccessDivider;
+        psyche += 10 / partialSuccessDivider;
         break;
     case 3:
-        energy += 30;
-        money -= 20;
-        psyche += 10;
+        energy += 30 / partialSuccessDivider;
+        money -= 20 / partialSuccessDivider;
+        psyche += 10 / partialSuccessDivider;
         break;
     default:
         break;
     }
 }
 
-void partyMenu()
+void partyMenu(int partialSuccessDivider)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you go out    |   Knowledge: " << knowledge << std::endl;
@@ -238,17 +238,33 @@ void partyMenu()
     switch (choice)
     {
     case 1:
-        psyche += 30;
-        energy -= 10;
-        money -= 20;
+        psyche += 30 / partialSuccessDivider;
+        energy -= 10 / partialSuccessDivider;
+        money -= 20 / partialSuccessDivider;
         break;
     case 2:
-        psyche += 40;
-        energy -= 15;
-        money -= 25;
+        psyche += 40 / partialSuccessDivider;
+        energy -= 15 / partialSuccessDivider;
+        money -= 25 / partialSuccessDivider;
         break;
     default:
         break;
+    }
+}
+
+bool actionIsPartialSucces()
+{
+    if (energy >= 80)
+    {
+        return false;
+    }
+    else if (energy >= 40)
+    {
+        return luck > 75 ? true : false;
+    }
+    else
+    {
+        return luck > 50 ? true : false;
     }
 }
 
@@ -268,16 +284,18 @@ void actionMenuText()
 
 void actionMenuChoice(int choice)
 {
+    bool isPartialSucces = actionIsPartialSucces();
+    int partialSuccessDivider = 1 + isPartialSucces;
     switch (choice)
     {
         case 1:
-            studyMenu();
+            studyMenu(partialSuccessDivider);
             break;
         case 2:
-            eatMenu();
+            eatMenu(partialSuccessDivider);
             break;
         case 3:
-            partyMenu();
+            partyMenu(partialSuccessDivider);
             break;
         case 4:
             energy += 50;
@@ -336,8 +354,8 @@ void gameloop()
 {
     while (currentDay <= 45)
     {
-        char autosave[CAPACITY] = "autosave";
-        saveGame(autosave);
+        char autosaveStr[CAPACITY] = "autosave";
+        saveGame(autosaveStr);
         std::cout << " Day " << currentDay << std::endl;
         if (currentDay == 8 || currentDay == 17 || currentDay == 26 || currentDay == fourthExamDate || currentDay == 45)
         {
