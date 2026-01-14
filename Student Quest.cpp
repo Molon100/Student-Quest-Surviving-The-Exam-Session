@@ -22,19 +22,6 @@ std::mt19937 randomGenerator(std::random_device{}());
 
 const int CAPACITY = 1024;
 
-int currentDay = 1;
-int knowledge = 0;
-int money = 0;
-int psyche = 0;
-int energy = 0;
-//going to implement randomness later
-int luck = randomGenerator() % 101;
-int examNumber = 1;
-
-
-int fourthExamDate = luck % 18 + 27;
-int examDates[5] = { 8, 17, 26, fourthExamDate, 45};
-
 size_t myStrlen(const char* str)
 {
     if (!str)
@@ -99,7 +86,7 @@ void mainMenu()
     std::cout << " -----------------------" << std::endl;
 }
 
-void newGame()
+void newGame(int& knowledge, int& money, int& psyche, int& energy)
 {
     std::cout << "  [1] Easy         " << std::endl;
     std::cout << "  [2] Normal       " << std::endl;
@@ -133,7 +120,7 @@ void newGame()
 }
 
 
-void saveGame(char* fileName)
+void saveGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[])
 {
     myStrcat(fileName, ".txt");
     std::ofstream out(fileName);
@@ -145,12 +132,12 @@ void saveGame(char* fileName)
 
     out << currentDay << std::endl;
     out << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
-    out << examNumber << ' ' << fourthExamDate << std::endl;
+    out << examNumber << ' ' << examDates[3] << std::endl;
     out.close();
     std::cout << "Game saved" << std::endl;
 }
 
-bool loadGame(char* fileName)
+bool loadGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[])
 {
     myStrcat(fileName, ".txt");
     std::ifstream in(fileName);
@@ -161,8 +148,8 @@ bool loadGame(char* fileName)
     }
 
     in >> currentDay;
-    in >> knowledge >> knowledge >> money >> psyche >> energy;
-    in >> examNumber >> fourthExamDate;
+    in >> knowledge >> money >> psyche >> energy;
+    in >> examNumber >> examDates[3];
     in.close();
     std::cout << "Game loaded" << std::endl;
     return true;
@@ -173,7 +160,7 @@ void helpMenu()
 
 }
 
-void studyMenu(int partialSuccessDivider)
+void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| How will you study       |   Knowledge: " << knowledge << std::endl;
@@ -207,7 +194,7 @@ void studyMenu(int partialSuccessDivider)
     }
 }
 
-void eatMenu(int partialSuccessDivider)
+void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you eat       |   Knowledge: " << knowledge << std::endl;
@@ -241,7 +228,7 @@ void eatMenu(int partialSuccessDivider)
     }
 }
 
-void partyMenu(int partialSuccessDivider)
+void partyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you go out    |   Knowledge: " << knowledge << std::endl;
@@ -269,7 +256,7 @@ void partyMenu(int partialSuccessDivider)
     }
 }
 
-bool actionIsPartialSucces()
+bool actionIsPartialSucces(int& energy, int& luck)
 {
     if (energy >= 80)
     {
@@ -285,7 +272,7 @@ bool actionIsPartialSucces()
     }
 }
 
-void actionMenuText()
+void actionMenuText(int& knowledge, int& psyche, int& money, int& energy)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| What action will         |   Knowledge: " << knowledge << std::endl;
@@ -299,20 +286,20 @@ void actionMenuText()
     std::cout << " --------------------------" << std::endl;
 }
 
-void actionMenuChoice(int choice)
+void actionMenuChoice(int choice, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& luck, int& examNumber, int examDates[])
 {
-    bool isPartialSucces = actionIsPartialSucces();
+    bool isPartialSucces = actionIsPartialSucces(energy, luck);
     int partialSuccessDivider = 1 + isPartialSucces;
     switch (choice)
     {
         case 1:
-            studyMenu(partialSuccessDivider);
+            studyMenu(partialSuccessDivider, knowledge, psyche, money, energy);
             break;
         case 2:
-            eatMenu(partialSuccessDivider);
+            eatMenu(partialSuccessDivider, knowledge, psyche, money, energy);
             break;
         case 3:
-            partyMenu(partialSuccessDivider);
+            partyMenu(partialSuccessDivider, knowledge, psyche, money, energy);
             break;
         case 4:
             energy += 50;
@@ -327,7 +314,7 @@ void actionMenuChoice(int choice)
             std::cout << "Set a name for your save: ";
             char name[CAPACITY];
             std::cin >> name;
-            saveGame(name);
+            saveGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates);
             exit(0);
             break;
     default:
@@ -335,7 +322,7 @@ void actionMenuChoice(int choice)
     }
 }
 
-bool randomEvent(const char* eventType)
+bool randomEvent(const char* eventType, int& psyche, int& money, int& luck)
 {
     if (!myStrcmp(eventType,"general"))
     {   
@@ -373,13 +360,10 @@ bool randomEvent(const char* eventType)
             }
         }
     }
-    else if (!myStrcmp(eventType, "general"))
-    {
-
-    }
+    return false;
 }
 
-bool loseConditions()
+bool loseConditions(int& money, int& psyche)
 {
     if (money <= 0)
     {
@@ -394,7 +378,7 @@ bool loseConditions()
     return false;
 }
 
-bool takeExam()
+bool takeExam(int& knowledge, int& psyche, int& energy, int& luck, int& examNumber)
 {
     int penalty = (examNumber - 1) * 5;
     double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
@@ -412,7 +396,7 @@ bool takeExam()
     }
 }
 
-void gameloop()
+void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& luck, int& examNumber, int examDates[])
 {
     const int FIRST_EXAM_DATE = examDates[0];
     const int SECOND_EXAM_DATE = examDates[1];
@@ -422,27 +406,30 @@ void gameloop()
     while (currentDay <= 45)
     {
         char autosaveStr[CAPACITY] = "autosave";
-        saveGame(autosaveStr);
+        saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates);
         std::cout << " Day " << currentDay << std::endl;
         if (currentDay == FIRST_EXAM_DATE || currentDay == SECOND_EXAM_DATE || currentDay == THIRD_EXAM_DATE
             || currentDay == FOURTH_EXAM_DATE || currentDay == FIFTH_EXAM_DATE)
         {
-            if (!takeExam())
+            if (!takeExam(knowledge, psyche, energy, luck, examNumber))
             {
                 return;
             }
         }
         else if(energy > 0)
         {
-            if (randomEvent("general"))
+            if (randomEvent("general", psyche, money, luck))
             {
+                currentDay++;
+                randomGenerator.seed(std::random_device{}());
+                luck = randomGenerator() % 101;
                 continue;
             }
             int choice;
-            actionMenuText();
+            actionMenuText(knowledge, psyche, money, energy);
             std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << "days." << std::endl;
             std::cin >> choice;
-            actionMenuChoice(choice);
+            actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates);
         }
         else
         {
@@ -451,7 +438,7 @@ void gameloop()
             energy = 40;
             psyche -= 10;
         }
-        if (loseConditions())
+        if (loseConditions(money, psyche))
         {
             return;
         }
@@ -468,6 +455,25 @@ void gameloop()
 
 int main()
 {
+    int currentDay = 1;
+    int knowledge = 0;
+    int money = 0;
+    int psyche = 0;
+    int energy = 0;
+    int luck = randomGenerator() % 101;
+    int examNumber = 1;
+
+    int& currentDayRef = currentDay;
+    int& knowledgeRef = knowledge;
+    int& moneyRef = money;
+    int& psycheRef = psyche;
+    int& energyRef = energy;
+    int& luckRef = luck;
+    int& examNumberRef = examNumber;
+
+    int fourthExamDate = luck % 18 + 27;
+    int examDates[5] = { 8, 17, 26, fourthExamDate, 45 };
+
     mainMenu();
     while (true)
     {
@@ -475,8 +481,8 @@ int main()
         std::cin >> choice;
         if (choice == 1)
         {
-            newGame();
-            gameloop();
+            newGame(knowledgeRef, moneyRef, psycheRef, energyRef);
+            gameloop(currentDayRef, knowledgeRef, moneyRef, psycheRef, energyRef, luckRef, examNumberRef, examDates);
             break;
         }
         else if (choice == 2)
@@ -484,12 +490,12 @@ int main()
             std::cout << "Load file with name(without whitespace): ";
             char name[1024];
             std::cin >> name;
-            while (!loadGame(name))
+            while (!loadGame(name, currentDayRef, knowledgeRef, moneyRef, psycheRef, energyRef, examNumberRef, examDates))
             {
                 std::cout << "Load file with name(without whitespace): ";
                 std::cin >> name;
             }
-            gameloop();
+            gameloop(currentDayRef, knowledgeRef, moneyRef, psycheRef, energyRef, luckRef, examNumberRef, examDates);
             break;
         }
         else if (choice == 3)
