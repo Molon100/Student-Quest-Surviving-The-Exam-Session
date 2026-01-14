@@ -364,17 +364,25 @@ void gameloop()
                 return;
             }
         }
-        else
+        else if(energy > 0)
         {
             int choice;
             actionMenuText();
             std::cin >> choice;
             actionMenuChoice(choice);
         }
+        else
+        {
+            std::cout << "No energy. You passed out!" << std::endl;
+            std::cout << "Your action was skipped today!" << std::endl;
+            energy = 40;
+            psyche -= 10;
+        }
         if (loseConditions())
         {
             return;
         }
+
         currentDay++;
         randomGenerator.seed(std::random_device{}());
         luck = randomGenerator() % 101;
