@@ -76,6 +76,20 @@ void myStrcat(char* dest, const char* source)
     myStrcpy(dest, source);
 }
 
+int myStrcmp(const char* str1, const char* str2)
+{
+    if (!str1 || !str2)
+        return 0;
+
+    while (*str1 && *str2 && *str1 == *str2)
+    {
+        str1++;
+        str2++;
+    }
+
+    return *str1 - *str2;
+}
+
 void mainMenu()
 {
     std::cout << " -----------------------" << std::endl;
@@ -321,6 +335,50 @@ void actionMenuChoice(int choice)
     }
 }
 
+bool randomEvent(const char* eventType)
+{
+    if (!myStrcmp(eventType,"general"))
+    {   
+        if (luck < 3)
+        {
+            int eventNumber = luck % 4 + 1;
+            switch (eventNumber)
+            {
+            case 1:
+                std::cout << "Mom and dad sent you money!" << std::endl;
+                std::cout << "+30 money" << std::endl;
+                money += 30;
+                return false;
+                break;
+            case 2:
+                std::cout << "A friend treats you to some coffee!" << std::endl;
+                std::cout << "+10 psyche" << std::endl;
+                psyche += 10;
+                return false;
+                break;
+            case 3:
+                std::cout << "You got sick!" << std::endl;
+                std::cout << "-20 energy" << std::endl;
+                money -= 20;
+                return false;
+                break;
+            case 4:
+                std::cout << "You had a blackout on your block!" << std::endl;
+                std::cout << "The day was skipped." << std::endl;
+                money += 30;
+                return true;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    else if (!myStrcmp(eventType, "general"))
+    {
+
+    }
+}
+
 bool loseConditions()
 {
     if (money <= 0)
@@ -376,6 +434,10 @@ void gameloop()
         }
         else if(energy > 0)
         {
+            if (randomEvent("general"))
+            {
+                continue;
+            }
             int choice;
             actionMenuText();
             std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << "days." << std::endl;
