@@ -541,6 +541,13 @@ bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumb
     }
 }
 
+void nextDay(int &currentDay, int &luck)
+{
+    currentDay++;
+    randomGenerator.seed(std::random_device{}());
+    luck = randomGenerator() % 101;
+}
+
 void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[], int &difficulty)
 {
     const int FIRST_EXAM_DATE = examDates[0];
@@ -565,9 +572,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
         {
             if (generalRandomEvent(psyche, money, luck))
             {
-                currentDay++;
-                randomGenerator.seed(std::random_device{}());
-                luck = randomGenerator() % 101;
+                nextDay(currentDay, luck);
                 continue;
             }
             int choice;
@@ -591,9 +596,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
         psyche -= (psyche / 100) * (psyche % 100);
         energy -= (energy / 100) * (energy % 100);
 
-        currentDay++;
-        randomGenerator.seed(std::random_device{}());
-        luck = randomGenerator() % 101;
+        nextDay(currentDay, luck);
     }
     std::cout << "Congratulations! You passed all 5 exams! And won! Yay";
 }
