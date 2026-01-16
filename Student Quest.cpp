@@ -548,6 +548,13 @@ void nextDay(int &currentDay, int &luck)
     luck = randomGenerator() % 101;
 }
 
+void resetIfOver100(int &knowledge, int &psyche, int &energy)
+{
+    knowledge -= (knowledge / 100) * (knowledge % 100);
+    psyche -= (psyche / 100) * (psyche % 100);
+    energy -= (energy / 100) * (energy % 100);
+}
+
 void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[], int &difficulty)
 {
     const int FIRST_EXAM_DATE = examDates[0];
@@ -592,9 +599,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
         {
             return;
         }
-        knowledge -= (knowledge / 100) * (knowledge % 100);
-        psyche -= (psyche / 100) * (psyche % 100);
-        energy -= (energy / 100) * (energy % 100);
+        resetIfOver100(knowledge, psyche, energy);
 
         nextDay(currentDay, luck);
     }
