@@ -176,17 +176,17 @@ void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& mone
     {
     case 1:
         knowledge += 20 / partialSuccessDivider;
-        energy -= 20 / partialSuccessDivider;
-        psyche -= 10 / partialSuccessDivider;
+        energy -= 20;
+        psyche -= 10;
         break;
     case 2:
         knowledge += 15 / partialSuccessDivider;
-        energy -= 15 / partialSuccessDivider;
-        psyche -= 20 / partialSuccessDivider;
+        energy -= 15;
+        psyche -= 20;
         break;
     case 3:
         knowledge += 5 / partialSuccessDivider;
-        energy -= 10 / partialSuccessDivider;
+        energy -= 10;
         psyche += 10 / partialSuccessDivider;
         break;
     default:
@@ -210,17 +210,17 @@ void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money,
     {
     case 1:
         energy += 20 / partialSuccessDivider;
-        money -= 10 / partialSuccessDivider;
+        money -= 10;
         psyche += 5 / partialSuccessDivider;
         break;
     case 2:
         energy += 25 / partialSuccessDivider;
-        money -= 15 / partialSuccessDivider;
+        money -= 15;
         psyche += 10 / partialSuccessDivider;
         break;
     case 3:
         energy += 30 / partialSuccessDivider;
-        money -= 20 / partialSuccessDivider;
+        money -= 20;
         psyche += 10 / partialSuccessDivider;
         break;
     default:
@@ -243,13 +243,13 @@ void partyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& mone
     {
     case 1:
         psyche += 30 / partialSuccessDivider;
-        energy -= 10 / partialSuccessDivider;
-        money -= 20 / partialSuccessDivider;
+        energy -= 10;
+        money -= 20;
         break;
     case 2:
         psyche += 40 / partialSuccessDivider;
-        energy -= 15 / partialSuccessDivider;
-        money -= 25 / partialSuccessDivider;
+        energy -= 15;
+        money -= 25;
         break;
     default:
         break;
@@ -306,7 +306,7 @@ void actionMenuChoice(int choice, int& currentDay, int& knowledge, int& money, i
             psyche += 10;
             break;
         case 5:
-            money += 40;
+            money += 40 / partialSuccessDivider;
             energy -= 20;
             psyche -= 10;
             break;
