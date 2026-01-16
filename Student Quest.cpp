@@ -86,7 +86,7 @@ void mainMenu()
     std::cout << " -----------------------" << std::endl;
 }
 
-void newGame(int &knowledge, int &money, int &psyche, int &energy)
+void newGame(int &knowledge, int &money, int &psyche, int &energy, int &difficulty)
 {
     std::cout << "  [1] Easy         " << std::endl;
     std::cout << "  [2] Normal       " << std::endl;
@@ -101,18 +101,21 @@ void newGame(int &knowledge, int &money, int &psyche, int &energy)
         money = 100;
         psyche = 100;
         energy = 100;
+        difficulty = 1;
         break;
     case 2:
         knowledge = 50;
         money = 80;
         psyche = 80;
         energy = 80;
+        difficulty = 2;
         break;
     case 3:
         knowledge = 35;
         money = 60;
         psyche = 60;
         energy = 40;
+        difficulty = 3;
         break;
     default:
         break;
@@ -120,7 +123,7 @@ void newGame(int &knowledge, int &money, int &psyche, int &energy)
 }
 
 
-void saveGame(char* fileName, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &examNumber, int examDates[])
+void saveGame(char* fileName, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &examNumber, int examDates[], int &difficulty)
 {
     myStrcat(fileName, ".txt");
     std::ofstream out(fileName);
@@ -130,14 +133,14 @@ void saveGame(char* fileName, int &currentDay, int &knowledge, int &money, int &
         return;
     }
 
-    out << currentDay << std::endl;
+    out << currentDay << ' ' << difficulty << std::endl;
     out << knowledge << ' ' << money << ' ' << psyche << ' ' << energy << std::endl;
     out << examNumber << ' ' << examDates[3] << std::endl;
     out.close();
     std::cout << "Game saved" << std::endl;
 }
 
-bool loadGame(char* fileName, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &examNumber, int examDates[])
+bool loadGame(char* fileName, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &examNumber, int examDates[], int& difficulty)
 {
     myStrcat(fileName, ".txt");
     std::ifstream in(fileName);
@@ -147,7 +150,7 @@ bool loadGame(char* fileName, int &currentDay, int &knowledge, int &money, int &
         return false;
     }
 
-    in >> currentDay;
+    in >> currentDay >> difficulty;
     in >> knowledge >> money >> psyche >> energy;
     in >> examNumber >> examDates[3];
     in.close();
@@ -286,7 +289,7 @@ void actionMenuText(int &knowledge, int &psyche, int &money, int &energy)
     std::cout << " --------------------------" << std::endl;
 }
 
-void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[])
+void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[], int &difficulty)
 {
     bool isPartialSucces = actionIsPartialSucces(energy, luck);
     int partialSuccessDivider = 1 + isPartialSucces;
@@ -314,7 +317,7 @@ void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, i
             std::cout << "Set a name for your save: ";
             char name[CAPACITY];
             std::cin >> name;
-            saveGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates);
+            saveGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
             exit(0);
             break;
     default:
@@ -378,7 +381,7 @@ bool loseConditions(int &money, int &psyche)
     return false;
 }
 
-bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumber)
+bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumber, int &difficulty)
 {
     int penalty = (examNumber - 1) * 5;
     double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
@@ -387,6 +390,8 @@ bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumb
         std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
         examNumber++;
         energy -= 20;
+        psyche += 20;
+        knowledge -= 25 + 20 * difficulty;
         return true;
     }
     else
@@ -396,7 +401,7 @@ bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumb
     }
 }
 
-void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[])
+void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[], int &difficulty)
 {
     const int FIRST_EXAM_DATE = examDates[0];
     const int SECOND_EXAM_DATE = examDates[1];
@@ -406,12 +411,12 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
     while (currentDay <= 45)
     {
         char autosaveStr[CAPACITY] = "autosave";
-        saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates);
+        saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
         std::cout << " Day " << currentDay << std::endl;
         if (currentDay == FIRST_EXAM_DATE || currentDay == SECOND_EXAM_DATE || currentDay == THIRD_EXAM_DATE
             || currentDay == FOURTH_EXAM_DATE || currentDay == FIFTH_EXAM_DATE)
         {
-            if (!takeExam(knowledge, psyche, energy, luck, examNumber))
+            if (!takeExam(knowledge, psyche, energy, luck, examNumber, difficulty))
             {
                 return;
             }
@@ -429,7 +434,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
             actionMenuText(knowledge, psyche, money, energy);
             std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << "days." << std::endl;
             std::cin >> choice;
-            actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates);
+            actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
         }
         else
         {
@@ -462,6 +467,7 @@ int main()
     int energy = 0;
     int luck = randomGenerator() % 101;
     int examNumber = 1;
+    int difficulty = 1;
 
     int fourthExamDate = luck % 18 + 27;
     int examDates[5] = { 8, 17, 26, fourthExamDate, 45 };
@@ -473,8 +479,8 @@ int main()
         std::cin >> choice;
         if (choice == 1)
         {
-            newGame(knowledge, money, psyche, energy);
-            gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates);
+            newGame(knowledge, money, psyche, energy, difficulty);
+            gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
             break;
         }
         else if (choice == 2)
@@ -482,12 +488,12 @@ int main()
             std::cout << "Load file with name(without whitespace): ";
             char name[1024];
             std::cin >> name;
-            while (!loadGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates))
+            while (!loadGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty))
             {
                 std::cout << "Load file with name(without whitespace): ";
                 std::cin >> name;
             }
-            gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates);
+            gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
             break;
         }
         else if (choice == 3)
