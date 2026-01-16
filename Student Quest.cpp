@@ -163,7 +163,177 @@ void helpMenu()
 
 }
 
-void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy)
+bool generalRandomEvent(int &psyche, int &money, int &luck)
+{
+    if (luck < 3)
+    {
+        int eventNumber = luck % 4 + 1;
+        switch (eventNumber)
+        {
+        case 1:
+            std::cout << "Mom and dad sent you money!" << std::endl;
+            std::cout << "+30 money" << std::endl;
+            money += 30;
+            return false;
+        case 2:
+            std::cout << "A friend treats you to some coffee!" << std::endl;
+            std::cout << "+10 psyche" << std::endl;
+            psyche += 10;
+            return false;
+        case 3:
+            std::cout << "You got sick!" << std::endl;
+            std::cout << "-20 energy" << std::endl;
+            money -= 20;
+            return false;
+        case 4:
+            std::cout << "You had a blackout on your block!" << std::endl;
+            std::cout << "The day was skipped." << std::endl;
+            money += 30;
+            return true;
+        default:
+            std::cout << "Error with the general random event!" << std::endl;
+            return false;
+        }
+    }
+    return false;
+}
+
+void studyRandomEvent(const char* eventSubType, int &psyche, int& knowledge, int &luck)
+{
+    if (!myStrcmp(eventSubType, "lecture"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "You understood the lecture extra hard!" << std::endl;
+            std::cout << "+5 knowledge" << std::endl;
+            std::cout << "+5 psyche" << std::endl;
+            knowledge += 5;
+            psyche += 5;
+        }
+    }
+    else if (!myStrcmp(eventSubType, "home"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "The neighbours made too much!" << std::endl;
+            std::cout << "You couldn't concentrate!" << std::endl;
+            std::cout << "-10 knowledge" << std::endl;
+            std::cout << "-5 psyche" << std::endl;
+            knowledge -= 20;
+            psyche -= 5;
+        }
+    }
+    else if (!myStrcmp(eventSubType, "friends"))
+    {
+        if (luck <= 1)
+        {
+            std::cout << "A friend showed you a leak of the exam!" << std::endl;
+            std::cout << "+50 knowledge" << std::endl;
+            std::cout << "+20 psyche" << std::endl;
+            knowledge += 50;
+            psyche += 20;
+        }
+    }
+}
+
+void foodRandomEvent(const char* eventSubType, int &psyche, int &energy, int& knowledge, int& luck)
+{
+    if (!myStrcmp(eventSubType, "canteen"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "A friend tutored you while eating!" << std::endl;
+            std::cout << "+5 knowledge" << std::endl;
+            std::cout << "+5 psyche" << std::endl;
+            knowledge += 5;
+            psyche += 5;
+        }
+    }
+    else if (!myStrcmp(eventSubType, "doner"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "The doner was rotten!" << std::endl; 
+            std::cout << "-20 energy" << std::endl;
+            std::cout << "-5 psyche" << std::endl;
+            energy -= 20;
+            psyche -= 5;
+        }
+    }
+    else if (!myStrcmp(eventSubType, "pizza"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "You ate too much pizza!" << std::endl;
+            std::cout << "-10 energy" << std::endl;
+            std::cout << "+5 psyche" << std::endl;
+            energy -= 10;
+            psyche += 5;
+        }
+    }
+}
+
+void partyRandomEvent(const char* eventSubType, int &psyche, int &energy, int &money, int& luck)
+{
+    if (luck < 30)
+    {
+        std::cout << "You got way too drunk!" << std::endl;
+        std::cout << "You got a bad hungover!" << std::endl;
+        std::cout << "-10 energy" << std::endl;
+        std::cout << "-5 psyche" << std::endl;
+        energy -= 10;
+        psyche -= 5;
+    }
+    if (!myStrcmp(eventSubType, "bar"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "The waiters messed up your order!" << std::endl;
+            std::cout << "You got a partial refund!" << std::endl;
+            std::cout << "+10 money" << std::endl;
+            money += 10;
+        }
+    }
+    else if (!myStrcmp(eventSubType, "club"))
+    {
+        if (luck < 10)
+        {
+            std::cout << "You got into a fight!" << std::endl;
+            std::cout << "You did not win!  ;(" << std::endl;
+            std::cout << "-30 psyche" << std::endl;
+            std::cout << "-10 energy" << std::endl;
+            psyche -= 20;
+            energy -= 10;
+        }
+    }
+}
+
+void sleepRandomEvent(int& psyche, int& energy, int& luck)
+{
+    if (luck < 30)
+    {
+        std::cout << "You had a nightmare!" << std::endl;
+        std::cout << "-15 energy" << std::endl;
+        std::cout << "-10 psyche" << std::endl;
+        energy -= 15;
+        psyche -= 10;
+    }
+}
+
+void workRandomEvent(int& psyche, int& money, int& luck)
+{
+    if (luck < 20)
+    {
+        std::cout << "You messed up something on the job!" << std::endl;
+        std::cout << "Your pay got deducted!" << std::endl;
+        std::cout << "-20 money" << std::endl;
+        std::cout << "-10 psyche" << std::endl;
+        money -= 25;
+        psyche -= 10;
+    }
+}
+
+void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| How will you study       |   Knowledge: " << knowledge << std::endl;
@@ -181,23 +351,26 @@ void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
         knowledge += 20 / partialSuccessDivider;
         energy -= 20;
         psyche -= 10;
+        studyRandomEvent("lecture", psyche, knowledge, luck);
         break;
     case 2:
         knowledge += 15 / partialSuccessDivider;
         energy -= 15;
         psyche -= 20;
+        studyRandomEvent("home", psyche, knowledge, luck);
         break;
     case 3:
         knowledge += 5 / partialSuccessDivider;
         energy -= 10;
         psyche += 10 / partialSuccessDivider;
+        studyRandomEvent("friends", psyche, knowledge, luck);
         break;
     default:
         break;
     }
 }
 
-void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy)
+void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you eat       |   Knowledge: " << knowledge << std::endl;
@@ -215,23 +388,26 @@ void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money,
         energy += 20 / partialSuccessDivider;
         money -= 10;
         psyche += 5 / partialSuccessDivider;
+        foodRandomEvent("canteen", psyche, energy, knowledge, luck);
         break;
     case 2:
         energy += 25 / partialSuccessDivider;
         money -= 15;
         psyche += 10 / partialSuccessDivider;
+        foodRandomEvent("doner", psyche, energy, knowledge, luck);
         break;
     case 3:
         energy += 30 / partialSuccessDivider;
         money -= 20;
         psyche += 10 / partialSuccessDivider;
+        foodRandomEvent("pizza", psyche, energy, knowledge, luck);
         break;
     default:
         break;
     }
 }
 
-void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy)
+void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
     std::cout << "| Where will you go out    |   Knowledge: " << knowledge << std::endl;
@@ -248,11 +424,13 @@ void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
         psyche += 30 / partialSuccessDivider;
         energy -= 10;
         money -= 20;
+        partyRandomEvent("bar", psyche, energy, money, luck);
         break;
     case 2:
         psyche += 40 / partialSuccessDivider;
         energy -= 15;
         money -= 25;
+        partyRandomEvent("bar", psyche, energy, money, luck);
         break;
     default:
         break;
@@ -296,22 +474,24 @@ void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, i
     switch (choice)
     {
         case 1:
-            studyMenu(partialSuccessDivider, knowledge, psyche, money, energy);
+            studyMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
             break;
         case 2:
-            eatMenu(partialSuccessDivider, knowledge, psyche, money, energy);
+            eatMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
             break;
         case 3:
-            partyMenu(partialSuccessDivider, knowledge, psyche, money, energy);
+            partyMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
             break;
         case 4:
             energy += 50;
             psyche += 10;
+            sleepRandomEvent(psyche, energy, luck);
             break;
         case 5:
             money += 40 / partialSuccessDivider;
             energy -= 20;
             psyche -= 10;
+            workRandomEvent(psyche, money, luck);
             break;
         case 6:
             std::cout << "Set a name for your save: ";
@@ -325,46 +505,6 @@ void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, i
     }
 }
 
-bool randomEvent(const char* eventType, int &psyche, int &money, int &luck)
-{
-    if (!myStrcmp(eventType,"general"))
-    {   
-        if (luck < 3)
-        {
-            int eventNumber = luck % 4 + 1;
-            switch (eventNumber)
-            {
-            case 1:
-                std::cout << "Mom and dad sent you money!" << std::endl;
-                std::cout << "+30 money" << std::endl;
-                money += 30;
-                return false;
-                break;
-            case 2:
-                std::cout << "A friend treats you to some coffee!" << std::endl;
-                std::cout << "+10 psyche" << std::endl;
-                psyche += 10;
-                return false;
-                break;
-            case 3:
-                std::cout << "You got sick!" << std::endl;
-                std::cout << "-20 energy" << std::endl;
-                money -= 20;
-                return false;
-                break;
-            case 4:
-                std::cout << "You had a blackout on your block!" << std::endl;
-                std::cout << "The day was skipped." << std::endl;
-                money += 30;
-                return true;
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    return false;
-}
 
 bool loseConditions(int &money, int &psyche)
 {
@@ -423,7 +563,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
         }
         else if(energy > 0)
         {
-            if (randomEvent("general", psyche, money, luck))
+            if (generalRandomEvent(psyche, money, luck))
             {
                 currentDay++;
                 randomGenerator.seed(std::random_device{}());
