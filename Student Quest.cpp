@@ -22,7 +22,7 @@ std::mt19937 randomGenerator(std::random_device{}());
 
 const int CAPACITY = 1024;
 
-//Returns the length of the passed string
+//Returns the length of the passed string.
 size_t myStrlen(const char* str)
 {
 	if (!str)
@@ -42,7 +42,7 @@ size_t myStrlen(const char* str)
 	return result;
 }
 
-//Copies the source string into the destination string
+//Copies the source string into the destination string and overrides the destination string.
 void myStrcpy(char* dest, const char* source)
 {
 	if (!source)
@@ -61,7 +61,7 @@ void myStrcpy(char* dest, const char* source)
 	*dest = '\0';
 }
 
-//Adds the source string at the end of the destination string
+//Adds the source string at the end of the destination string.
 void myStrcat(char* dest, const char* source)
 {
 	if (!dest || !source)
@@ -146,7 +146,7 @@ void newGame(int& knowledge, int& money, int& psyche, int& energy, int& difficul
 	}
 }
 
-//Saves the game state with a name from the passed string
+//Saves the game state with a name from the passed string fileName
 void saveGame(char* fileName, int currentDay, int knowledge, int money, int psyche, int energy, int examNumber, int examDates[], int difficulty)
 {
 	myStrcat(fileName, ".txt");
@@ -164,8 +164,8 @@ void saveGame(char* fileName, int currentDay, int knowledge, int money, int psyc
 	std::cout << "Game saved" << std::endl;
 }
 
-//Loads the game state from a file with a name from the passed string
-//If file with a passed name cannot be opened, returns false. Else returns true.
+//Loads the game state from a file with a name from the passed string fileName
+//If a file with a passed name cannot be opened, returns false. Else returns true.
 bool loadGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[], int& difficulty)
 {
 	myStrcat(fileName, ".txt");
@@ -386,7 +386,6 @@ void workRandomEvent(int& psyche, int& money, int luck)
 void statsText(int currentDay, int money, int energy, int psyche, int knowledge, int examNumber)
 {
 	const int LAST_DAY = 45;
-	char whitespaces[2] = " ";
 	std::cout << " -------------------" << std::endl;
 	std::cout << "| Day " << currentDay << '/' << LAST_DAY << "         |" << std::endl;
 	std::cout << "| Money: " << money << " euro   |" << std::endl;
@@ -406,7 +405,7 @@ void studyMenuText()
 	std::cout << "| [3] Study with friends" << std::endl;
 }
 
-//The user inputs a number to choose one.
+//The user inputs a number to choose one study options.
 void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& energy, int luck)
 {
 	int choice = userInput();
@@ -495,7 +494,8 @@ void partyMenuText()
 
 //The user inputs a number to choose one party option.
 void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& energy, int luck)
-{int choice = userInput();
+{
+	int choice = userInput();
 	while (true)
 	{
 		if (choice == 1)
@@ -606,7 +606,7 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 }
 
 //Checks if any of the lose conditions are met.
-//if one or more are met returns true and print lose message.
+//If one or more are met, returns true and prints lose message.
 bool loseConditions(int money, int psyche)
 {
 	if (money <= 0)
@@ -645,8 +645,8 @@ void winMessage()
 	std::cout << " -------------------------------" << std::endl;
 }
 
-//Returns true, if exam is passed, and returns true, if exam is not passed.
-//If passed, prints that it's passed. If not, print that the game is over.
+//Returns true, if exam is passed, and returns false, if exam is not passed.
+//If passed, prints that it's passed. If not, prints that the game is over.
 bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumber, int difficulty)
 {
 	int penalty = (examNumber - 1) * 5;
@@ -681,7 +681,7 @@ void nextDay(int& currentDay, int& luck)
 	luck = randomGenerator() % 101;
 }
 
-//Resets stats if they're over a 100.
+//Resets stats, if they're over a 100, with the remainder of dividing by 100.
 void resetIfOver100(int& knowledge, int& psyche, int& energy)
 {
 	knowledge -= (knowledge / 100) * (knowledge % 100);
