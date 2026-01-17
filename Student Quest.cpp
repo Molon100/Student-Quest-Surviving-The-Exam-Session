@@ -349,13 +349,10 @@ void statsText(int& currentDay, int& money, int& energy, int& psyche, int& knowl
 
 void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
-    std::cout << " --------------------------" << std::endl;
-    std::cout << "| How will you study       |" << std::endl;
-    std::cout << "| today?                   |" << std::endl;
-    std::cout << "| [1] Go to lecture        |" << std::endl;
-    std::cout << "| [2] Study at home        |" << std::endl;
-    std::cout << "| [3] Study with friends   |" << std::endl;
-    std::cout << " --------------------------" << std::endl;
+    std::cout << "| How will you study today?" << std::endl;
+    std::cout << "| [1] Go to lecture" << std::endl;
+    std::cout << "| [2] Study at home" << std::endl;
+    std::cout << "| [3] Study with friends" << std::endl;
 
     int choice;
     std::cin >> choice;
@@ -386,13 +383,10 @@ void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
 
 void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
-    std::cout << " --------------------------" << std::endl;
-    std::cout << "| Where will you eat       |" << std::endl;
-    std::cout << "| today?                   |" << std::endl;
-    std::cout << "| [1] At the canteen       |" << std::endl;
-    std::cout << "| [2] Doner kebap          |" << std::endl;
-    std::cout << "| [3] Get a pizza          |" << std::endl;
-    std::cout << " --------------------------" << std::endl;
+    std::cout << "| Where will you eat today?" << std::endl;
+    std::cout << "| [1] At the canteen" << std::endl;
+    std::cout << "| [2] Doner kebap" << std::endl;
+    std::cout << "| [3] Get a pizza" << std::endl;
 
     int choice;
     std::cin >> choice;
@@ -423,12 +417,9 @@ void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money,
 
 void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
-    std::cout << " --------------------------" << std::endl;
-    std::cout << "| Where will you go out    |" << std::endl;
-    std::cout << "| today?                   |" << std::endl;
-    std::cout << "| [1] To the bar           |" << std::endl;
-    std::cout << "| [2] To the club          |" << std::endl;
-    std::cout << " --------------------------" << std::endl;
+    std::cout << "| Where will you go out today?" << std::endl;
+    std::cout << "| [1] To the bar" << std::endl;
+    std::cout << "| [2] To the club" << std::endl;
 
     int choice;
     std::cin >> choice;
@@ -469,16 +460,13 @@ bool actionIsPartialSucces(int &energy, int &luck)
 
 void actionMenuText(int &knowledge, int &psyche, int &money, int &energy)
 {
-    std::cout << " --------------------------" << std::endl;
-    std::cout << "| What action will         |" << std::endl;
-    std::cout << "| you choose?              |" << std::endl;
-    std::cout << "| [1] Study                |" << std::endl;
-    std::cout << "| [2] Eat                  |" << std::endl;
-    std::cout << "| [3] Go out               |" << std::endl;
-    std::cout << "| [4] Take a break         |" << std::endl;
-    std::cout << "| [5] Go to part-time work |" << std::endl;
-    std::cout << "| [6] Quit game            |" << std::endl;
-    std::cout << " --------------------------" << std::endl;
+    std::cout << "| What action will you choose?" << std::endl;
+    std::cout << "| [1] Study" << std::endl;
+    std::cout << "| [2] Eat" << std::endl;
+    std::cout << "| [3] Go out" << std::endl;
+    std::cout << "| [4] Take a break" << std::endl;
+    std::cout << "| [5] Go to part-time work" << std::endl;
+    std::cout << "| [6] Quit game" << std::endl;
 }
 
 void actionMenuChoice(int choice, int &currentDay, int &knowledge, int &money, int &psyche, int &energy, int &luck, int &examNumber, int examDates[], int &difficulty)
@@ -597,8 +585,8 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
                 continue;
             }
             int choice;
+            std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << " days." << std::endl;
             actionMenuText(knowledge, psyche, money, energy);
-            std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << "days." << std::endl;
             std::cin >> choice;
             actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
         }
