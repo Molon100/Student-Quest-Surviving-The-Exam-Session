@@ -26,7 +26,10 @@ const int CAPACITY = 1024;
 size_t myStrlen(const char* str)
 {
 	if (!str)
+	{
 		return 0;
+
+	}
 
 	unsigned result = 0;
 
@@ -43,7 +46,10 @@ size_t myStrlen(const char* str)
 void myStrcpy(char* dest, const char* source)
 {
 	if (!source)
+	{
 		return;
+
+	}
 
 	while (*source)
 	{
@@ -59,7 +65,9 @@ void myStrcpy(char* dest, const char* source)
 void myStrcat(char* dest, const char* source)
 {
 	if (!dest || !source)
+	{
 		return;
+	}
 
 	size_t firstLen = myStrlen(dest);
 	dest += firstLen;
@@ -73,7 +81,9 @@ void myStrcat(char* dest, const char* source)
 int myStrcmp(const char* str1, const char* str2)
 {
 	if (!str1 || !str2)
+	{
 		return 0;
+	}
 
 	while (*str1 && *str2 && *str1 == *str2)
 	{
@@ -156,7 +166,7 @@ void saveGame(char* fileName, int currentDay, int knowledge, int money, int psyc
 
 //Loads the game state from a file with a name from the passed string
 //If file with a passed name cannot be opened, returns false. Else returns true.
-bool loadGame(char* fileName, int currentDay, int knowledge, int money, int psyche, int energy, int examNumber, int examDates[], int difficulty)
+bool loadGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[], int& difficulty)
 {
 	myStrcat(fileName, ".txt");
 	std::ifstream in(fileName);
@@ -178,20 +188,21 @@ void helpMenu()
 {
 	std::cout << "Welcome to Student Quest!" << std::endl;
 	std::cout << "Here's a brief breakdown of what you need to know." << std::endl;
-	std::cout << "Every day you will be able to choose to do an action:" << std::endl;
+	std::cout << "Every day you will be able to choose to do an action." << std::endl;
 	std::cout << "In this game you have stats, which will be important to survive:" << std::endl;
 	std::cout << "Money, Energy, Psyche, Knowledge" << std::endl;
 	std::cout << "Your actions will change these stats." << std::endl;
 	std::cout << "It's possible for your actions to not be fully effective, if you're too tired." << std::endl;
-	std::cout << "If you run out of either Money or Psyche, the game will end" << std::endl;
+	std::cout << "If you run out of either Money or Psyche, the game will end." << std::endl;
 	std::cout << "If you run out of Energy you will pass out and miss your action for the day." << std::endl;
 	std::cout << "The main objective of this game is to pass all your 5 exams!" << std::endl;
-	std::cout << "Passing your exams relies mainly in your Knowledge, but also your Energy and Psyche." << std::endl;
+	std::cout << "Passing your exams relies mainly on your Knowledge, but also your Energy and Psyche." << std::endl;
 	std::cout << "If you fail an exam, the game ends!" << std::endl;
 	std::cout << "If you pass all 5 exams, you win!" << std::endl;
-	std::cout << "Exam dates: 1 - 8 day, 2 - 17 day, 3 - 26 day, 4 - random day bewteen exam 3 and 4, 5 - 45 day" << std::endl;
+	std::cout << "Exam dates: 1 - 8 day, 2 - 17 day, 3 - 26 day, 4 - random day bewteen exam 3 and 5, 5 - 45 day" << std::endl;
 	std::cout << "It's also possible to get random events after each day and action." << std::endl;
 	std::cout << "Some will have a positive effect and others - a negative effect!" << std::endl;
+	std::cout << "Good luck!" << std::endl;
 }
 
 //Based on the rng, can fire a random event at the start of every day
@@ -387,14 +398,17 @@ void statsText(int currentDay, int money, int energy, int psyche, int knowledge,
 }
 
 //Prints a menu with the possible study options.
-//The user inputs a number to choose one.
-void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& energy, int luck)
+void studyMenuText()
 {
 	std::cout << "| How will you study today?" << std::endl;
 	std::cout << "| [1] Go to lecture" << std::endl;
 	std::cout << "| [2] Study at home" << std::endl;
 	std::cout << "| [3] Study with friends" << std::endl;
+}
 
+//The user inputs a number to choose one.
+void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& energy, int luck)
+{
 	int choice = userInput();
 	while (true)
 	{
@@ -428,14 +442,17 @@ void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& ener
 }
 
 //Prints a menu with the possible food options.
-//The user inputs a number to choose one.
-void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int luck)
+void eatMenuText()
 {
 	std::cout << "| Where will you eat today?" << std::endl;
 	std::cout << "| [1] At the canteen" << std::endl;
 	std::cout << "| [2] Doner kebap" << std::endl;
 	std::cout << "| [3] Get a pizza" << std::endl;
+}
 
+//The user inputs a number to choose one food option.
+void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int luck)
+{
 	int choice = userInput();
 	while (true)
 	{
@@ -469,14 +486,16 @@ void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money,
 }
 
 //Prints a menu with the possible party options.
-//The user inputs a number to choose one.
-void partyMenu(int partialSuccessDivider, int& psyche, int& money, int& energy, int luck)
+void partyMenuText()
 {
 	std::cout << "| Where will you go out today?" << std::endl;
 	std::cout << "| [1] To the bar" << std::endl;
 	std::cout << "| [2] To the club" << std::endl;
+}
 
-	int choice = userInput();
+//The user inputs a number to choose one party option.
+void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& energy, int luck)
+{int choice = userInput();
 	while (true)
 	{
 		if (choice == 1)
@@ -542,17 +561,20 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 	{
 		if (choice == 1)
 		{
-			studyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
+			studyMenuText();
+			studyMenuChoice(partialSuccessDivider, knowledge, psyche, energy, luck);
 			return false;
 		}
 		else if (choice == 2)
 		{
-			eatMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
+			eatMenuText();
+			eatMenuChoice(partialSuccessDivider, knowledge, psyche, money, energy, luck);
 			return false;
 		}
 		else if (choice == 3)
 		{
-			partyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
+			partyMenuText();
+			partyMenuChoice(partialSuccessDivider, knowledge, psyche, energy, luck);
 			return false;
 		}
 		else if (choice == 4)
