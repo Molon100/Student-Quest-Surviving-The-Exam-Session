@@ -333,13 +333,27 @@ void workRandomEvent(int& psyche, int& money, int& luck)
     }
 }
 
+void statsText(int& currentDay, int& money, int& energy, int& psyche, int& knowledge, int &examNumber)
+{
+    const int LAST_DAY = 45;
+    char whitespaces[2] = " ";
+    std::cout << " -------------------" << std::endl;
+    std::cout << "| Day "  << currentDay << '/' << LAST_DAY << "         |" << std::endl;
+    std::cout << "| Money: " << money << " euro   |" << std::endl;
+    std::cout << "| Energy: " << energy << "       |" << std::endl;
+    std::cout << "| Psyche: " << psyche << "       |" << std::endl;
+    std::cout << "| Knowledge: " << knowledge << "    |" << std::endl;
+    std::cout << "| Passed exams: " << examNumber - 1 << "  |" << std::endl;
+    std::cout << " -------------------" << std::endl;
+}
+
 void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
-    std::cout << "| How will you study       |   Knowledge: " << knowledge << std::endl;
-    std::cout << "| today?                   |   Energy:    " << energy << std::endl;
-    std::cout << "| [1] Go to lecture        |   Psyche:    " << psyche << std::endl;
-    std::cout << "| [2] Study at home        |   Money:     " << money << std::endl;
+    std::cout << "| How will you study       |" << std::endl;
+    std::cout << "| today?                   |" << std::endl;
+    std::cout << "| [1] Go to lecture        |" << std::endl;
+    std::cout << "| [2] Study at home        |" << std::endl;
     std::cout << "| [3] Study with friends   |" << std::endl;
     std::cout << " --------------------------" << std::endl;
 
@@ -373,10 +387,10 @@ void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
 void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
-    std::cout << "| Where will you eat       |   Knowledge: " << knowledge << std::endl;
-    std::cout << "| today?                   |   Energy:    " << energy << std::endl;
-    std::cout << "| [1] At the canteen       |   Psyche:    " << psyche << std::endl;
-    std::cout << "| [2] Doner kebap          |   Money:     " << money << std::endl;
+    std::cout << "| Where will you eat       |" << std::endl;
+    std::cout << "| today?                   |" << std::endl;
+    std::cout << "| [1] At the canteen       |" << std::endl;
+    std::cout << "| [2] Doner kebap          |" << std::endl;
     std::cout << "| [3] Get a pizza          |" << std::endl;
     std::cout << " --------------------------" << std::endl;
 
@@ -410,10 +424,10 @@ void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money,
 void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money, int &energy, int& luck)
 {
     std::cout << " --------------------------" << std::endl;
-    std::cout << "| Where will you go out    |   Knowledge: " << knowledge << std::endl;
-    std::cout << "| today?                   |   Energy:    " << energy << std::endl;
-    std::cout << "| [1] To the bar           |   Psyche:    " << psyche << std::endl;
-    std::cout << "| [2] To the club          |   Money:     " << money << std::endl;
+    std::cout << "| Where will you go out    |" << std::endl;
+    std::cout << "| today?                   |" << std::endl;
+    std::cout << "| [1] To the bar           |" << std::endl;
+    std::cout << "| [2] To the club          |" << std::endl;
     std::cout << " --------------------------" << std::endl;
 
     int choice;
@@ -456,10 +470,10 @@ bool actionIsPartialSucces(int &energy, int &luck)
 void actionMenuText(int &knowledge, int &psyche, int &money, int &energy)
 {
     std::cout << " --------------------------" << std::endl;
-    std::cout << "| What action will         |   Knowledge: " << knowledge << std::endl;
-    std::cout << "| you choose?              |   Energy:    " << energy << std::endl;
-    std::cout << "| [1] Study                |   Psyche:    " << psyche << std::endl;
-    std::cout << "| [2] Eat                  |   Money:     " << money << std::endl;
+    std::cout << "| What action will         |" << std::endl;
+    std::cout << "| you choose?              |" << std::endl;
+    std::cout << "| [1] Study                |" << std::endl;
+    std::cout << "| [2] Eat                  |" << std::endl;
     std::cout << "| [3] Go out               |" << std::endl;
     std::cout << "| [4] Take a break         |" << std::endl;
     std::cout << "| [5] Go to part-time work |" << std::endl;
@@ -566,7 +580,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
     {
         char autosaveStr[CAPACITY] = "autosave";
         saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
-        std::cout << " Day " << currentDay << std::endl;
+        statsText(currentDay, money, energy, psyche, knowledge, examNumber);
         if (currentDay == FIRST_EXAM_DATE || currentDay == SECOND_EXAM_DATE || currentDay == THIRD_EXAM_DATE
             || currentDay == FOURTH_EXAM_DATE || currentDay == FIFTH_EXAM_DATE)
         {
