@@ -516,7 +516,8 @@ void actionMenuText()
 }
 
 //Lets the user input which action he wants take from the action menu.
-void actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, int& energy, int luck, int examNumber, int examDates[], int difficulty)
+//Returns true if saving game, returns false if anything else.
+bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, int& energy, int luck, int examNumber, int examDates[], int difficulty)
 {
 	bool isPartialSucces = actionIsPartialSuccess(energy, luck);
 	int partialSuccessDivider = 1 + isPartialSucces;
@@ -527,24 +528,24 @@ void actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 		if (choice == 1)
 		{
 			studyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
-			break;
+			return false;
 		}
 		else if (choice == 2)
 		{
 			eatMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
-			break;
+			return false;
 		}
 		else if (choice == 3)
 		{
 			partyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
-			break;
+			return false;
 		}
 		else if (choice == 4)
 		{
 			energy += 50;
 			psyche += 10;
 			sleepRandomEvent(psyche, energy, luck);
-			break;
+			return false;
 		}
 		else if (choice == 5)
 		{
@@ -552,7 +553,7 @@ void actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 			energy -= 20;
 			psyche -= 10;
 			workRandomEvent(psyche, money, luck);
-			break;
+			return false;
 		}
 		else if (choice == 6)
 		{
@@ -560,7 +561,7 @@ void actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 			char name[CAPACITY];
 			std::cin >> name;
 			saveGame(name, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
-			exit(0);
+			return true;
 		}
 		std::cout << "Invalid input!" << std::endl;
 		choice = userInput();
@@ -681,7 +682,10 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 			}
 			std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << " days." << std::endl;
 			actionMenuText();
-			actionMenuChoice( currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
+			if (actionMenuChoice(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty))
+			{
+				return;
+			}
 		}
 		else
 		{
