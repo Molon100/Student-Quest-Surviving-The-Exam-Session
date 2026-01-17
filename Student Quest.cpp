@@ -649,9 +649,10 @@ void winMessage()
 //If passed, prints that it's passed. If not, prints that the game is over.
 bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumber, int difficulty)
 {
+	const int PASSING_EXAM_POINTS = 75;
 	int penalty = (examNumber - 1) * 5;
 	double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
-	if (examPoints >= 75)
+	if (examPoints >= PASSING_EXAM_POINTS)
 	{
 		std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
 		examNumber++;
@@ -697,7 +698,7 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	const int THIRD_EXAM_DATE = examDates[2];
 	const int FOURTH_EXAM_DATE = examDates[3];
 	const int FIFTH_EXAM_DATE = examDates[4];
-	while (currentDay <= 45)
+	while (currentDay <= FIFTH_EXAM_DATE)
 	{
 		char autosaveStr[CAPACITY] = "autosave";
 		saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
@@ -799,8 +800,14 @@ int main()
 	int examNumber = 1;
 	int difficulty = 1;
 
-	int fourthExamDate = luck % 18 + 27;
-	int examDates[5] = { 8, 17, 26, fourthExamDate, 45 };
+	const int FIRST_EXAM_DATE = 8;
+	const int SECOND_EXAM_DATE = 17;
+	const int THIRD_EXAM_DATE = 26;
+	const int FIFTH_EXAM_DATE = 45;
+	const int DAYS_BETWEEN_THIRD_AND_FIFTH_EXAM = 27;
+	int fourthExamDate = luck % 18 + DAYS_BETWEEN_THIRD_AND_FIFTH_EXAM;
+
+	int examDates[5] = { FIRST_EXAM_DATE, SECOND_EXAM_DATE, THIRD_EXAM_DATE, fourthExamDate, FIFTH_EXAM_DATE };
 
 	mainMenu(currentDay, knowledge, money, psyche, energy, luck, difficulty, examNumber, examDates);
 }
