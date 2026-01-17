@@ -512,12 +512,24 @@ bool loseConditions(int &money, int &psyche)
 {
     if (money <= 0)
     {
-        std::cout << "You ran out of money and moved back in with your parents." << std::endl;
+        std::cout << " --------------------------------" << std::endl;
+        std::cout << "|          Game over!            |" << std::endl;
+        std::cout << "|                                |" << std::endl;
+        std::cout << "|  You ran out of money          |" << std::endl;
+        std::cout << "|  and moved back in with        |" << std::endl;
+        std::cout << "|  your parents! (and quit uni)  |" << std::endl;
+        std::cout << " --------------------------------" << std::endl;
         return true;
     }
     if (psyche <= 0)
     {
-        std::cout << "You lost your mind and decided university isn't for you." << std::endl;
+        std::cout << " --------------------------------" << std::endl;
+        std::cout << "|          Game over!            |" << std::endl;
+        std::cout << "|                                |" << std::endl;
+        std::cout << "|  Your psyche could not handle  |" << std::endl;
+        std::cout << "|  all this torture and          |" << std::endl;
+        std::cout << "|  you quit university!          |" << std::endl;
+        std::cout << " --------------------------------" << std::endl;
         return true;
     }
     return false;
