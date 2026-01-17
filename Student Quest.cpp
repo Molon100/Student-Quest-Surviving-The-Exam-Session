@@ -548,7 +548,12 @@ bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumb
     }
     else
     {
-        std::cout << "Exam #" << examNumber << " has been failed!" << std::endl;
+        std::cout << " -------------------------------" << std::endl;
+        std::cout << "|          Game over!           |" << std::endl;
+        std::cout << "|                               |" << std::endl;
+        std::cout << "|  You failed to pass           |" << std::endl;
+        std::cout << "|  exam #" << examNumber << " !                    | " << std::endl;
+        std::cout << " -------------------------------" << std::endl;
         return false;
     }
 }
