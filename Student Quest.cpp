@@ -355,6 +355,7 @@ void studyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
     std::cout << "| [3] Study with friends" << std::endl;
 
     int choice;
+    std::cout << "> ";
     std::cin >> choice;
     switch (choice)
     {
@@ -389,6 +390,7 @@ void eatMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &money,
     std::cout << "| [3] Get a pizza" << std::endl;
 
     int choice;
+    std::cout << "> ";
     std::cin >> choice;
     switch (choice)
     {
@@ -422,6 +424,7 @@ void partyMenu(int partialSuccessDivider, int &knowledge, int &psyche, int &mone
     std::cout << "| [2] To the club" << std::endl;
 
     int choice;
+    std::cout << "> ";
     std::cin >> choice;
     switch (choice)
     {
@@ -611,9 +614,10 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
                 nextDay(currentDay, luck);
                 continue;
             }
-            int choice;
             std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << " days." << std::endl;
             actionMenuText(knowledge, psyche, money, energy);
+            int choice;
+            std::cout << "> ";
             std::cin >> choice;
             actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
         }
