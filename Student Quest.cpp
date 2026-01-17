@@ -523,6 +523,16 @@ bool loseConditions(int &money, int &psyche)
     return false;
 }
 
+void winMessage()
+{
+    std::cout << " -------------------------------" << std::endl;
+    std::cout << "|   Congratulations! Victory!   |" << std::endl;
+    std::cout << "|                               |" << std::endl;
+    std::cout << "|  You passed all 5 exams and   |" << std::endl;
+    std::cout << "|  lived to tell the tale!      |" << std::endl;
+    std::cout << " -------------------------------" << std::endl;
+}
+
 bool takeExam(int &knowledge, int &psyche, int &energy, int &luck, int &examNumber, int &difficulty)
 {
     int penalty = (examNumber - 1) * 5;
@@ -605,7 +615,7 @@ void gameloop(int &currentDay, int &knowledge, int &money, int &psyche, int &ene
 
         nextDay(currentDay, luck);
     }
-    std::cout << "Congratulations! You passed all 5 exams! And won! Yay";
+    winMessage();
 }
 
 int main()
