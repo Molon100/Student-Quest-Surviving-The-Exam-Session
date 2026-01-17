@@ -176,7 +176,22 @@ bool loadGame(char* fileName, int currentDay, int knowledge, int money, int psyc
 //Prints helpful information needed to understand how to play the game.
 void helpMenu()
 {
-
+	std::cout << "Welcome to Student Quest!" << std::endl;
+	std::cout << "Here's a brief breakdown of what you need to know." << std::endl;
+	std::cout << "Every day you will be able to choose to do an action:" << std::endl;
+	std::cout << "In this game you have stats, which will be important to survive:" << std::endl;
+	std::cout << "Money, Energy, Psyche, Knowledge" << std::endl;
+	std::cout << "Your actions will change these stats." << std::endl;
+	std::cout << "It's possible for your actions to not be fully effective, if you're too tired." << std::endl;
+	std::cout << "If you run out of either Money or Psyche, the game will end" << std::endl;
+	std::cout << "If you run out of Energy you will pass out and miss your action for the day." << std::endl;
+	std::cout << "The main objective of this game is to pass all your 5 exams!" << std::endl;
+	std::cout << "Passing your exams relies mainly in your Knowledge, but also your Energy and Psyche." << std::endl;
+	std::cout << "If you fail an exam, the game ends!" << std::endl;
+	std::cout << "If you pass all 5 exams, you win!" << std::endl;
+	std::cout << "Exam dates: 1 - 8 day, 2 - 17 day, 3 - 26 day, 4 - random day bewteen exam 3 and 4, 5 - 45 day" << std::endl;
+	std::cout << "It's also possible to get random events after each day and action." << std::endl;
+	std::cout << "Some will have a positive effect and others - a negative effect!" << std::endl;
 }
 
 //Based on the rng, can fire a random event at the start of every day
@@ -740,7 +755,10 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		{
 			helpMenu();
 		}
-		std::cout << "Invalid input!" << std::endl;
+		else
+		{
+			std::cout << "Invalid input!" << std::endl;
+		}
 		choice = userInput();
 	}
 }
