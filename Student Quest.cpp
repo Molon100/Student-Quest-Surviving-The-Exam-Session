@@ -137,7 +137,7 @@ void newGame(int& knowledge, int& money, int& psyche, int& energy, int& difficul
 }
 
 //Saves the game state with a name from the passed string
-void saveGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[], int& difficulty)
+void saveGame(char* fileName, int currentDay, int knowledge, int money, int psyche, int energy, int examNumber, int examDates[], int difficulty)
 {
 	myStrcat(fileName, ".txt");
 	std::ofstream out(fileName);
@@ -156,7 +156,7 @@ void saveGame(char* fileName, int& currentDay, int& knowledge, int& money, int& 
 
 //Loads the game state from a file with a name from the passed string
 //If file with a passed name cannot be opened, returns false. Else returns true.
-bool loadGame(char* fileName, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& examNumber, int examDates[], int& difficulty)
+bool loadGame(char* fileName, int currentDay, int knowledge, int money, int psyche, int energy, int examNumber, int examDates[], int difficulty)
 {
 	myStrcat(fileName, ".txt");
 	std::ifstream in(fileName);
@@ -181,7 +181,7 @@ void helpMenu()
 
 //Based on the rng, can fire a random event at the start of every day
 //Returns false, if is not passing out event. Returns true, if is passing out event.
-bool generalRandomEvent(int& psyche, int& money, int& luck)
+bool generalRandomEvent(int& psyche, int& money, int luck)
 {
 	if (luck < 3)
 	{
@@ -217,7 +217,7 @@ bool generalRandomEvent(int& psyche, int& money, int& luck)
 }
 
 //Based on the rng, can fire a random event when selecting different studying options
-void studyRandomEvent(const char* eventSubType, int& psyche, int& knowledge, int& luck)
+void studyRandomEvent(const char* eventSubType, int& psyche, int& knowledge, int luck)
 {
 	if (!myStrcmp(eventSubType, "lecture"))
 	{
@@ -256,7 +256,7 @@ void studyRandomEvent(const char* eventSubType, int& psyche, int& knowledge, int
 }
 
 //Based on the rng, can fire a random event when selecting different food options
-void foodRandomEvent(const char* eventSubType, int& psyche, int& energy, int& knowledge, int& luck)
+void foodRandomEvent(const char* eventSubType, int& psyche, int& energy, int& knowledge, int luck)
 {
 	if (!myStrcmp(eventSubType, "canteen"))
 	{
@@ -294,7 +294,7 @@ void foodRandomEvent(const char* eventSubType, int& psyche, int& energy, int& kn
 }
 
 //Based on the rng, can fire a random event when selecting different party options
-void partyRandomEvent(const char* eventSubType, int& psyche, int& energy, int& money, int& luck)
+void partyRandomEvent(const char* eventSubType, int& psyche, int& energy, int& money, int luck)
 {
 	if (luck < 30)
 	{
@@ -330,7 +330,7 @@ void partyRandomEvent(const char* eventSubType, int& psyche, int& energy, int& m
 }
 
 //Based on the rng, can fire a random event when taking a break/sleeping
-void sleepRandomEvent(int& psyche, int& energy, int& luck)
+void sleepRandomEvent(int& psyche, int& energy, int luck)
 {
 	if (luck < 30)
 	{
@@ -343,7 +343,7 @@ void sleepRandomEvent(int& psyche, int& energy, int& luck)
 }
 
 //Based on the rng, can fire a random event when working
-void workRandomEvent(int& psyche, int& money, int& luck)
+void workRandomEvent(int& psyche, int& money, int luck)
 {
 	if (luck < 20)
 	{
@@ -357,7 +357,7 @@ void workRandomEvent(int& psyche, int& money, int& luck)
 }
 
 //Prints a menu with the user's current stats
-void statsText(int& currentDay, int& money, int& energy, int& psyche, int& knowledge, int& examNumber)
+void statsText(int currentDay, int money, int energy, int psyche, int knowledge, int examNumber)
 {
 	const int LAST_DAY = 45;
 	char whitespaces[2] = " ";
@@ -373,7 +373,7 @@ void statsText(int& currentDay, int& money, int& energy, int& psyche, int& knowl
 
 //Prints a menu with the possible study options.
 //The user inputs a number to choose one.
-void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int& luck)
+void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& energy, int luck)
 {
 	std::cout << "| How will you study today?" << std::endl;
 	std::cout << "| [1] Go to lecture" << std::endl;
@@ -414,7 +414,7 @@ void studyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& mone
 
 //Prints a menu with the possible food options.
 //The user inputs a number to choose one.
-void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int& luck)
+void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int luck)
 {
 	std::cout << "| Where will you eat today?" << std::endl;
 	std::cout << "| [1] At the canteen" << std::endl;
@@ -455,7 +455,7 @@ void eatMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money,
 
 //Prints a menu with the possible party options.
 //The user inputs a number to choose one.
-void partyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int& luck)
+void partyMenu(int partialSuccessDivider, int& psyche, int& money, int& energy, int luck)
 {
 	std::cout << "| Where will you go out today?" << std::endl;
 	std::cout << "| [1] To the bar" << std::endl;
@@ -487,7 +487,7 @@ void partyMenu(int partialSuccessDivider, int& knowledge, int& psyche, int& mone
 
 //Determines if the action wil have partial effect, depending on the level of energy.
 //Partial success means halving the increase of user stats.
-bool actionIsPartialSuccess(int& energy, int& luck)
+bool actionIsPartialSuccess(int energy, int luck)
 {
 	if (energy >= 80)
 	{
@@ -504,7 +504,7 @@ bool actionIsPartialSuccess(int& energy, int& luck)
 }
 
 //Prints a menu with the different options a user can take each day.
-void actionMenuText(int& knowledge, int& psyche, int& money, int& energy)
+void actionMenuText()
 {
 	std::cout << "| What action will you choose?" << std::endl;
 	std::cout << "| [1] Study" << std::endl;
@@ -512,19 +512,21 @@ void actionMenuText(int& knowledge, int& psyche, int& money, int& energy)
 	std::cout << "| [3] Go out" << std::endl;
 	std::cout << "| [4] Take a break" << std::endl;
 	std::cout << "| [5] Go to part-time work" << std::endl;
-	std::cout << "| [6] Quit game" << std::endl;
+	std::cout << "| [6] Save and quit game" << std::endl;
 }
 
 //Lets the user input which action he wants take from the action menu.
-void actionMenuChoice(int choice, int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& luck, int& examNumber, int examDates[], int& difficulty)
+void actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, int& energy, int luck, int examNumber, int examDates[], int difficulty)
 {
 	bool isPartialSucces = actionIsPartialSuccess(energy, luck);
 	int partialSuccessDivider = 1 + isPartialSucces;
+
+	int  choice = userInput();
 	while (true)
 	{
 		if (choice == 1)
 		{
-			studyMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
+			studyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
 			break;
 		}
 		else if (choice == 2)
@@ -534,7 +536,7 @@ void actionMenuChoice(int choice, int& currentDay, int& knowledge, int& money, i
 		}
 		else if (choice == 3)
 		{
-			partyMenu(partialSuccessDivider, knowledge, psyche, money, energy, luck);
+			partyMenu(partialSuccessDivider, knowledge, psyche, energy, luck);
 			break;
 		}
 		else if (choice == 4)
@@ -567,7 +569,7 @@ void actionMenuChoice(int choice, int& currentDay, int& knowledge, int& money, i
 
 //Checks if any of the lose conditions are met.
 //if one or more are met returns true and print lose message.
-bool loseConditions(int& money, int& psyche)
+bool loseConditions(int money, int psyche)
 {
 	if (money <= 0)
 	{
@@ -607,7 +609,7 @@ void winMessage()
 
 //Returns true, if exam is passed, and returns true, if exam is not passed.
 //If passed, prints that it's passed. If not, print that the game is over.
-bool takeExam(int& knowledge, int& psyche, int& energy, int& luck, int& examNumber, int& difficulty)
+bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumber, int difficulty)
 {
 	int penalty = (examNumber - 1) * 5;
 	double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
@@ -650,7 +652,7 @@ void resetIfOver100(int& knowledge, int& psyche, int& energy)
 }
 
 //Main game loop function of the game.
-void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& luck, int& examNumber, int examDates[], int& difficulty)
+void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& energy, int& luck, int& examNumber, int examDates[], int difficulty)
 {
 	const int FIRST_EXAM_DATE = examDates[0];
 	const int SECOND_EXAM_DATE = examDates[1];
@@ -678,9 +680,8 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 				continue;
 			}
 			std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << " days." << std::endl;
-			actionMenuText(knowledge, psyche, money, energy);
-			int choice = userInput();
-			actionMenuChoice(choice, currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
+			actionMenuText();
+			actionMenuChoice( currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
 		}
 		else
 		{
