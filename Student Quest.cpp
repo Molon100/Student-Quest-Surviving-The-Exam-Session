@@ -188,20 +188,26 @@ void helpMenu()
 {
 	std::cout << "Welcome to Student Quest!" << std::endl;
 	std::cout << "Here's a brief breakdown of what you need to know." << std::endl;
+	std::cout << std::endl;
 	std::cout << "Every day you will be able to choose to do an action." << std::endl;
 	std::cout << "In this game you have stats, which will be important to survive:" << std::endl;
 	std::cout << "Money, Energy, Psyche, Knowledge" << std::endl;
 	std::cout << "Your actions will change these stats." << std::endl;
+	std::cout << std::endl;
 	std::cout << "It's possible for your actions to not be fully effective, if you're too tired." << std::endl;
 	std::cout << "If you run out of either Money or Psyche, the game will end." << std::endl;
 	std::cout << "If you run out of Energy you will pass out and miss your action for the day." << std::endl;
+	std::cout << std::endl;
 	std::cout << "The main objective of this game is to pass all your 5 exams!" << std::endl;
 	std::cout << "Passing your exams relies mainly on your Knowledge, but also your Energy and Psyche." << std::endl;
 	std::cout << "If you fail an exam, the game ends!" << std::endl;
 	std::cout << "If you pass all 5 exams, you win!" << std::endl;
+	std::cout << std::endl;
 	std::cout << "Exam dates: 1 - 8 day, 2 - 17 day, 3 - 26 day, 4 - random day bewteen exam 3 and 5, 5 - 45 day" << std::endl;
+	std::cout << std::endl;
 	std::cout << "It's also possible to get random events after each day and action." << std::endl;
 	std::cout << "Some will have a positive effect and others - a negative effect!" << std::endl;
+	std::cout << std::endl;
 	std::cout << "Good luck!" << std::endl;
 }
 
@@ -382,7 +388,7 @@ void workRandomEvent(int& psyche, int& money, int luck)
 	}
 }
 
-//Prints a menu with the user's current stats
+//Prints a textbox with the user's current stats
 void statsText(int currentDay, int money, int energy, int psyche, int knowledge, int examNumber)
 {
 	const int LAST_DAY = 45;
