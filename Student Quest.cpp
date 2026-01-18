@@ -95,10 +95,10 @@ int myStrcmp(const char* str1, const char* str2)
 }
 
 //Returns the user input.
-int userInput()
+char userInput()
 {
 	std::cout << "> ";
-	int choice;
+	char choice;
 	std::cin >> choice;
 	return choice;
 }
@@ -110,10 +110,10 @@ void newGame(int& knowledge, int& money, int& psyche, int& energy, int& difficul
 	std::cout << "  [2] Normal       " << std::endl;
 	std::cout << "  [3] Hard         " << std::endl;
 	std::cout << "Choose difficulty: ";
-	int choice = userInput();
+	char choice = userInput();
 	while (true)
 	{
-		if (choice == 1)
+		if (choice == '1')
 		{
 			knowledge = 80;
 			money = 100;
@@ -122,7 +122,7 @@ void newGame(int& knowledge, int& money, int& psyche, int& energy, int& difficul
 			difficulty = 1;
 			break;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			knowledge = 50;
 			money = 80;
@@ -131,7 +131,7 @@ void newGame(int& knowledge, int& money, int& psyche, int& energy, int& difficul
 			difficulty = 2;
 			break;
 		}
-		else if (choice == 3)
+		else if (choice == '3')
 		{
 			knowledge = 35;
 			money = 60;
@@ -414,10 +414,10 @@ void studyMenuText()
 //The user inputs a number to choose one study options.
 void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& energy, int luck)
 {
-	int choice = userInput();
+	char choice = userInput();
 	while (true)
 	{
-		if (choice == 1)
+		if (choice == '1')
 		{
 			int knowledgeIncrease = 20 / partialSuccessDivider;
 			knowledge += knowledgeIncrease;
@@ -429,7 +429,7 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 			studyRandomEvent("lecture", psyche, knowledge, luck);
 			break;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			int knowledgeIncrease = 15 / partialSuccessDivider;
 			knowledge += knowledgeIncrease;
@@ -441,7 +441,7 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 			studyRandomEvent("home", psyche, knowledge, luck);
 			break;
 		}
-		else if (choice == 3)
+		else if (choice == '3')
 		{
 			int knowledgeIncrease = 5 / partialSuccessDivider;
 			int psycheIncrease = 10 / partialSuccessDivider;
@@ -471,10 +471,10 @@ void eatMenuText()
 //The user inputs a number to choose one food option.
 void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int luck)
 {
-	int choice = userInput();
+	char choice = userInput();
 	while (true)
 	{
-		if (choice == 1)
+		if (choice == '1')
 		{
 			int energyIncrease = 20 / partialSuccessDivider;
 			int psycheIncrease = 5 / partialSuccessDivider;
@@ -486,7 +486,7 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 			foodRandomEvent("canteen", psyche, energy, knowledge, luck);
 			break;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			int energyIncrease = 25 / partialSuccessDivider;
 			int psycheIncrease = 10 / partialSuccessDivider;
@@ -498,7 +498,7 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 			foodRandomEvent("doner", psyche, energy, knowledge, luck);
 			break;
 		}
-		else if (choice == 3)
+		else if (choice == '3')
 		{
 			int energyIncrease = 30 / partialSuccessDivider;
 			int psycheIncrease = 15 / partialSuccessDivider;
@@ -526,10 +526,10 @@ void partyMenuText()
 //The user inputs a number to choose one party option.
 void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& energy, int luck)
 {
-	int choice = userInput();
+	char choice = userInput();
 	while (true)
 	{
-		if (choice == 1)
+		if (choice == '1')
 		{
 			int psycheIncrease = 30 / partialSuccessDivider;
 			psyche += psycheIncrease;
@@ -540,7 +540,7 @@ void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& en
 			partyRandomEvent("bar", psyche, energy, money, luck);
 			break;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			int psycheIncrease = 40 / partialSuccessDivider;
 			psyche += psycheIncrease;
@@ -593,28 +593,28 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 	bool isPartialSucces = actionIsPartialSuccess(energy, luck);
 	int partialSuccessDivider = 1 + isPartialSucces;
 
-	int  choice = userInput();
+	char  choice = userInput();
 	while (true)
 	{
-		if (choice == 1)
+		if (choice == '1')
 		{
 			studyMenuText();
 			studyMenuChoice(partialSuccessDivider, knowledge, psyche, energy, luck);
 			return false;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			eatMenuText();
 			eatMenuChoice(partialSuccessDivider, knowledge, psyche, money, energy, luck);
 			return false;
 		}
-		else if (choice == 3)
+		else if (choice == '3')
 		{
 			partyMenuText();
 			partyMenuChoice(partialSuccessDivider, psyche, money, energy, luck);
 			return false;
 		}
-		else if (choice == 4)
+		else if (choice == '4')
 		{
 			int energyIncrease = 30;
 			int psycheIncrease = 5;
@@ -625,7 +625,7 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 			sleepRandomEvent(psyche, energy, luck);
 			return false;
 		}
-		else if (choice == 5)
+		else if (choice == '5')
 		{
 			int moneyIncrease = 40 / partialSuccessDivider;
 			int energyDecrease = 20;
@@ -639,7 +639,7 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 			workRandomEvent(psyche, money, luck);
 			return false;
 		}
-		else if (choice == 6)
+		else if (choice == '6')
 		{
 			std::cout << "Set a name for your save(without whitespace): ";
 			char name[CAPACITY];
@@ -807,17 +807,17 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	std::cout << "| [3] Load game.        |" << std::endl;
 	std::cout << "| [4] Help              |" << std::endl;
 	std::cout << " -----------------------" << std::endl;
-	int choice;
+	char choice;
 	while (true)
 	{
 		choice = userInput();
-		if (choice == 1)
+		if (choice == '1')
 		{
 			newGame(knowledge, money, psyche, energy, difficulty);
 			gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
 			break;
 		}
-		else if (choice == 2)
+		else if (choice == '2')
 		{
 			char autosaveStr[CAPACITY] = "autosave";
 			if (!loadGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty))
@@ -828,7 +828,7 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 			gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
 			break;
 		}
-		else if (choice == 3)
+		else if (choice == '3')
 		{
 			std::cout << "Load file with name(without whitespace): ";
 			char name[1024];
@@ -841,7 +841,7 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 			gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
 			break;
 		}
-		else if (choice == 4)
+		else if (choice == '4')
 		{
 			helpMenu();
 		}
