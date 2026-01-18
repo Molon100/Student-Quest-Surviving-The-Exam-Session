@@ -213,7 +213,7 @@ void helpMenu()
 
 //Based on the rng, can fire a random event at the start of every day
 //Returns false, if is not passing out event. Returns true, if is passing out event.
-bool generalRandomEvent(int& psyche, int& money, int luck)
+bool generalRandomEvent(int& psyche, int& money, int& energy, int luck)
 {
 	if (luck >= 96 || luck <= 4)
 	{
@@ -233,7 +233,7 @@ bool generalRandomEvent(int& psyche, int& money, int luck)
 		case 3:
 			std::cout << "You got sick!" << std::endl;
 			std::cout << "-20 energy" << std::endl;
-			money -= 20;
+			energy -= 20;
 			return false;
 		case 4:
 			std::cout << "You had a blackout on your block!" << std::endl;
@@ -363,7 +363,7 @@ void partyRandomEvent(const char* eventSubType, int& psyche, int& energy, int& m
 //Based on the rng, can fire a random event when taking a break/sleeping
 void sleepRandomEvent(int& psyche, int& energy, int luck)
 {
-	if (luck < 30)
+	if (luck < 20)
 	{
 		std::cout << "You had a nightmare!" << std::endl;
 		std::cout << "-15 energy" << std::endl;
@@ -473,15 +473,15 @@ void eatMenuText()
 }
 
 //The user inputs a number to choose one food option.
-void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& money, int& energy, int luck)
+void eatMenuChoice(int& knowledge, int& psyche, int& money, int& energy, int luck)
 {
 	char choice = userInput();
 	while (true)
 	{
 		if (choice == '1')
 		{
-			int energyIncrease = 20 / partialSuccessDivider;
-			int psycheIncrease = 5 / partialSuccessDivider;
+			int energyIncrease = 20;
+			int psycheIncrease = 5;
 			int moneyDecrease = 10;
 			energy += energyIncrease;
 			money -= moneyDecrease;
@@ -493,8 +493,8 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 		}
 		else if (choice == '2')
 		{
-			int energyIncrease = 25 / partialSuccessDivider;
-			int psycheIncrease = 10 / partialSuccessDivider;
+			int energyIncrease = 30;
+			int psycheIncrease = 10;
 			int moneyDecrease = 15;
 			energy += energyIncrease;
 			money -= moneyDecrease;
@@ -506,8 +506,8 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 		}
 		else if (choice == '3')
 		{
-			int energyIncrease = 30 / partialSuccessDivider;
-			int psycheIncrease = 15 / partialSuccessDivider;
+			int energyIncrease = 40;
+			int psycheIncrease = 15;
 			int moneyDecrease = 20;
 			energy += energyIncrease;
 			money -= moneyDecrease;
@@ -616,7 +616,7 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 		else if (choice == '2')
 		{
 			eatMenuText();
-			eatMenuChoice(partialSuccessDivider, knowledge, psyche, money, energy, luck);
+			eatMenuChoice(knowledge, psyche, money, energy, luck);
 			return false;
 		}
 		else if (choice == '3')
@@ -703,11 +703,17 @@ void winMessage()
 	std::cout << " -------------------------------" << std::endl;
 }
 
+//Checks if a stat is lower than 0
+bool isLowerThan0(int& stat)
+{
+	return stat < 0;
+}
+
 //Returns true, if exam is passed, and returns false, if exam is not passed.
 //If passed, prints that it's passed. If not, prints that the game is over.
 bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumber, int difficulty)
 {
-	const int PASSING_EXAM_POINTS = 75;
+	const int PASSING_EXAM_POINTS = 70;
 	const int PENALTY = (examNumber - 1) * 5;
 	const double EXAM_POINTS = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - PENALTY;
 	if (EXAM_POINTS >= PASSING_EXAM_POINTS)
@@ -723,6 +729,10 @@ bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumbe
 		knowledge -= knowledgeDecrease;
 		std::cout << "-" << energyDecrease << " energy" << std::endl;
 		std::cout << "+" << psycheIncrease << " psyche" << std::endl;
+		if (isLowerThan0(knowledge))
+		{
+			knowledge = 0;
+		}
 		std::cout << "Remaining knowledge: " << knowledge << std::endl;
 		return true;
 	}
@@ -765,8 +775,14 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	const int FIFTH_EXAM_DATE = examDates[4];
 	while (currentDay <= FIFTH_EXAM_DATE)
 	{
+		std::cout << "--------------------" << std::endl;
 		char autosaveStr[CAPACITY] = "autosave";
 		saveGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty);
+		if (generalRandomEvent(psyche, money, energy, luck))
+		{
+			nextDay(currentDay, luck);
+			continue;
+		}
 		statsText(currentDay, money, energy, psyche, knowledge, examNumber);
 		if (currentDay == FIRST_EXAM_DATE || currentDay == SECOND_EXAM_DATE || currentDay == THIRD_EXAM_DATE
 			|| currentDay == FOURTH_EXAM_DATE || currentDay == FIFTH_EXAM_DATE)
@@ -778,11 +794,6 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		}
 		else if (energy > 0)
 		{
-			if (generalRandomEvent(psyche, money, luck))
-			{
-				nextDay(currentDay, luck);
-				continue;
-			}
 			std::cout << "Next exam is in " << examDates[examNumber - 1] - currentDay << " days." << std::endl;
 			actionMenuText();
 			if (actionMenuChoice(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty))
@@ -801,6 +812,10 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		if (loseConditions(money, psyche))
 		{
 			return;
+		}
+		if (isLowerThan0(energy))
+		{
+			energy = 0;
 		}
 		const int LIMIT = 100;
 		resetIfOverLimit(knowledge, psyche, energy, LIMIT);
