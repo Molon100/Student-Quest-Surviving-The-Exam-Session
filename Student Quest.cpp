@@ -611,7 +611,7 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 		else if (choice == 3)
 		{
 			partyMenuText();
-			partyMenuChoice(partialSuccessDivider, knowledge, psyche, energy, luck);
+			partyMenuChoice(partialSuccessDivider, psyche, money, energy, luck);
 			return false;
 		}
 		else if (choice == 4)
@@ -701,11 +701,12 @@ bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumbe
 	double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
 	if (examPoints >= PASSING_EXAM_POINTS)
 	{
+		int luckFactor = (luck % 3 * 0.1) + 1;
 		std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
 		examNumber++;
 		int energyDecrease = 20;
 		int psycheIncrease = 20;
-		int knowledgeDecrease = 25 + 20 * difficulty;
+		int knowledgeDecrease = 25 + 20 * difficulty * luckFactor;
 		energy -= energyDecrease;
 		psyche += psycheIncrease;
 		knowledge -= knowledgeDecrease;
@@ -750,7 +751,6 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	const int SECOND_EXAM_DATE = examDates[1];
 	const int THIRD_EXAM_DATE = examDates[2];
 	const int FOURTH_EXAM_DATE = examDates[3];
-	std::cout << FOURTH_EXAM_DATE << std::endl;
 	const int FIFTH_EXAM_DATE = examDates[4];
 	while (currentDay <= FIFTH_EXAM_DATE)
 	{
@@ -819,8 +819,8 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		}
 		else if (choice == 2)
 		{
-			char autosaveName[CAPACITY] = "autosave";
-			if (!loadGame(autosaveName, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty))
+			char autosaveStr[CAPACITY] = "autosave";
+			if (!loadGame(autosaveStr, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty))
 			{
 				std::cout << "Could not find previous autosave!" << std::endl;
 				continue;
