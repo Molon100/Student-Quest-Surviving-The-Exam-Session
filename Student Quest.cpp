@@ -803,12 +803,14 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	std::cout << " Student Quest: Surviving the exam session" << std::endl;
 	std::cout << " -----------------------" << std::endl;
 	std::cout << "| [1] Start new game.   |" << std::endl;
-	std::cout << "| [2] Load game.        |" << std::endl;
-	std::cout << "| [3] Help              |" << std::endl;
+	std::cout << "| [2] Continue  game.   |" << std::endl;
+	std::cout << "| [3] Load game.        |" << std::endl;
+	std::cout << "| [4] Help              |" << std::endl;
 	std::cout << " -----------------------" << std::endl;
-	int choice = userInput();
+	int choice;
 	while (true)
 	{
+		choice = userInput();
 		if (choice == 1)
 		{
 			newGame(knowledge, money, psyche, energy, difficulty);
@@ -816,6 +818,17 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 			break;
 		}
 		else if (choice == 2)
+		{
+			char autosaveName[CAPACITY] = "autosave";
+			if (!loadGame(autosaveName, currentDay, knowledge, money, psyche, energy, examNumber, examDates, difficulty))
+			{
+				std::cout << "Could not find previous autosave!" << std::endl;
+				continue;
+			}
+			gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
+			break;
+		}
+		else if (choice == 3)
 		{
 			std::cout << "Load file with name(without whitespace): ";
 			char name[1024];
@@ -828,7 +841,7 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 			gameloop(currentDay, knowledge, money, psyche, energy, luck, examNumber, examDates, difficulty);
 			break;
 		}
-		else if (choice == 3)
+		else if (choice == 4)
 		{
 			helpMenu();
 		}
@@ -836,7 +849,6 @@ void mainMenu(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		{
 			std::cout << "Invalid input!" << std::endl;
 		}
-		choice = userInput();
 	}
 }
 
