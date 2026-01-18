@@ -238,7 +238,6 @@ bool generalRandomEvent(int& psyche, int& money, int luck)
 		case 4:
 			std::cout << "You had a blackout on your block!" << std::endl;
 			std::cout << "The day was skipped." << std::endl;
-			money += 30;
 			return true;
 		default:
 			std::cout << "Error with the general random event!" << std::endl;
@@ -270,7 +269,7 @@ void studyRandomEvent(const char* eventSubType, int& psyche, int& knowledge, int
 			std::cout << "You couldn't concentrate!" << std::endl;
 			std::cout << "-10 knowledge" << std::endl;
 			std::cout << "-5 psyche" << std::endl;
-			knowledge -= 20;
+			knowledge -= 10;
 			psyche -= 5;
 		}
 	}
@@ -355,7 +354,7 @@ void partyRandomEvent(const char* eventSubType, int& psyche, int& energy, int& m
 			std::cout << "You did not win!  ;(" << std::endl;
 			std::cout << "-30 psyche" << std::endl;
 			std::cout << "-10 energy" << std::endl;
-			psyche -= 20;
+			psyche -= 30;
 			energy -= 10;
 		}
 	}
@@ -383,7 +382,7 @@ void workRandomEvent(int& psyche, int& money, int luck)
 		std::cout << "Your pay got deducted!" << std::endl;
 		std::cout << "-20 money" << std::endl;
 		std::cout << "-10 psyche" << std::endl;
-		money -= 25;
+		money -= 20;
 		psyche -= 10;
 	}
 }
@@ -420,24 +419,28 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 		if (choice == '1')
 		{
 			int knowledgeIncrease = 20 / partialSuccessDivider;
+			int energyDecrease = 20;
+			int psycheDecrease = 10;
 			knowledge += knowledgeIncrease;
-			energy -= 20;
-			psyche -= 10;
+			energy -= energyDecrease;
+			psyche -= psycheDecrease;
 			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
-			std::cout << "-20 energy" << std::endl;
-			std::cout << "-10 psyche" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
+			std::cout << "-" << psycheDecrease << " psyche" << std::endl;
 			studyRandomEvent("lecture", psyche, knowledge, luck);
 			break;
 		}
 		else if (choice == '2')
 		{
 			int knowledgeIncrease = 15 / partialSuccessDivider;
+			int energyDecrease = 15;
+			int psycheDecrease = 20;
 			knowledge += knowledgeIncrease;
-			energy -= 15;
-			psyche -= 20;
+			energy -= energyDecrease;
+			psyche -= psycheDecrease;
 			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
-			std::cout << "-15 energy" << std::endl;
-			std::cout << "-20 psyche" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
+			std::cout << "-" << psycheDecrease << " psyche" << std::endl;
 			studyRandomEvent("home", psyche, knowledge, luck);
 			break;
 		}
@@ -445,11 +448,12 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 		{
 			int knowledgeIncrease = 5 / partialSuccessDivider;
 			int psycheIncrease = 10 / partialSuccessDivider;
+			int energyDecrease = 10;
 			knowledge += knowledgeIncrease;
-			energy -= 10;
+			energy -= energyDecrease;
 			psyche += psycheIncrease;
 			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
-			std::cout << "-10 energy" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			studyRandomEvent("friends", psyche, knowledge, luck);
 			break;
@@ -478,8 +482,9 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 		{
 			int energyIncrease = 20 / partialSuccessDivider;
 			int psycheIncrease = 5 / partialSuccessDivider;
+			int moneyDecrease = 10;
 			energy += energyIncrease;
-			money -= 10;
+			money -= moneyDecrease;
 			psyche += psycheIncrease;
 			std::cout << "+" << energyIncrease << " energy" << std::endl;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
@@ -490,8 +495,9 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 		{
 			int energyIncrease = 25 / partialSuccessDivider;
 			int psycheIncrease = 10 / partialSuccessDivider;
+			int moneyDecrease = 15;
 			energy += energyIncrease;
-			money -= 15;
+			money -= moneyDecrease;
 			psyche += psycheIncrease;
 			std::cout << "+" << energyIncrease << " energy" << std::endl;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
@@ -502,8 +508,9 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 		{
 			int energyIncrease = 30 / partialSuccessDivider;
 			int psycheIncrease = 15 / partialSuccessDivider;
+			int moneyDecrease = 20;
 			energy += energyIncrease;
-			money -= 20;
+			money -= moneyDecrease;
 			psyche += psycheIncrease;
 			std::cout << "+" << energyIncrease << " energy" << std::endl;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
@@ -532,22 +539,26 @@ void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& en
 		if (choice == '1')
 		{
 			int psycheIncrease = 30 / partialSuccessDivider;
+			int energyDecrease = 10;
+			int moneyDecrease = 20;
 			psyche += psycheIncrease;
-			energy -= 10;
-			money -= 20;
+			energy -= energyDecrease;
+			money -= moneyDecrease;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
-			std::cout << "-10 energy" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
 			partyRandomEvent("bar", psyche, energy, money, luck);
 			break;
 		}
 		else if (choice == '2')
 		{
 			int psycheIncrease = 40 / partialSuccessDivider;
+			int energyDecrease = 15;
+			int moneyDecrease = 25;
 			psyche += psycheIncrease;
-			energy -= 15;
-			money -= 25;
+			energy -= energyDecrease;
+			money -= moneyDecrease;
 			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
-			std::cout << "-15 energy" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
 			partyRandomEvent("club", psyche, energy, money, luck);
 			break;
 		}
@@ -697,9 +708,9 @@ void winMessage()
 bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumber, int difficulty)
 {
 	const int PASSING_EXAM_POINTS = 75;
-	int penalty = (examNumber - 1) * 5;
-	double examPoints = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - penalty;
-	if (examPoints >= PASSING_EXAM_POINTS)
+	const int PENALTY = (examNumber - 1) * 5;
+	const double EXAM_POINTS = (knowledge * 0.75) + (psyche * 0.1) + (energy * 0.1) + (luck * 0.2) - PENALTY;
+	if (EXAM_POINTS >= PASSING_EXAM_POINTS)
 	{
 		int luckFactor = (luck % 3 * 0.1) + 1;
 		std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
@@ -737,11 +748,11 @@ void nextDay(int& currentDay, int& luck)
 }
 
 //Resets stats, if they're over a 100, with the remainder of dividing by 100.
-void resetIfOver100(int& knowledge, int& psyche, int& energy)
+void resetIfOverLimit(int& knowledge, int& psyche, int& energy, const int LIMIT)
 {
-	knowledge -= (knowledge / 100) * (knowledge % 100);
-	psyche -= (psyche / 100) * (psyche % 100);
-	energy -= (energy / 100) * (energy % 100);
+	knowledge -= (knowledge / LIMIT) * (knowledge % LIMIT);
+	psyche -= (psyche / LIMIT) * (psyche % LIMIT);
+	energy -= (energy / LIMIT) * (energy % LIMIT);
 }
 
 //Main game loop function of the game.
@@ -783,14 +794,16 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 		{
 			std::cout << "No energy. You passed out!" << std::endl;
 			std::cout << "Your action was skipped today!" << std::endl;
+			int psycheDecrease = 10;
 			energy = 40;
-			psyche -= 10;
+			psyche -= psycheDecrease;
 		}
 		if (loseConditions(money, psyche))
 		{
 			return;
 		}
-		resetIfOver100(knowledge, psyche, energy);
+		const int LIMIT = 100;
+		resetIfOverLimit(knowledge, psyche, energy, LIMIT);
 
 		nextDay(currentDay, luck);
 	}
@@ -871,7 +884,8 @@ int main()
 	const int THIRD_EXAM_DATE = 26;
 	const int FIFTH_EXAM_DATE = 45;
 	const int DAYS_BETWEEN_THIRD_AND_FIFTH_EXAM = 27;
-	int fourthExamDate = luck % 18 + DAYS_BETWEEN_THIRD_AND_FIFTH_EXAM;
+	const int LUCK_FACTOR = 18;
+	int fourthExamDate = luck % LUCK_FACTOR + DAYS_BETWEEN_THIRD_AND_FIFTH_EXAM;
 
 	int examDates[5] = { FIRST_EXAM_DATE, SECOND_EXAM_DATE, THIRD_EXAM_DATE, fourthExamDate, FIFTH_EXAM_DATE };
 
