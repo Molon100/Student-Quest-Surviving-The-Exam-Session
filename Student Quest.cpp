@@ -9,7 +9,7 @@
 * @idnumber 6MI0600662
 * @compiler VC
 *
-* <main program file of the game>
+* Main program file of the game.
 *
 */
 
@@ -413,25 +413,38 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 	{
 		if (choice == 1)
 		{
-			knowledge += 20 / partialSuccessDivider;
+			int knowledgeIncrease = 20 / partialSuccessDivider;
+			knowledge += knowledgeIncrease;
 			energy -= 20;
 			psyche -= 10;
+			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
+			std::cout << "-20 energy" << std::endl;
+			std::cout << "-10 psyche" << std::endl;
 			studyRandomEvent("lecture", psyche, knowledge, luck);
 			break;
 		}
 		else if (choice == 2)
 		{
-			knowledge += 15 / partialSuccessDivider;
+			int knowledgeIncrease = 15 / partialSuccessDivider;
+			knowledge += knowledgeIncrease;
 			energy -= 15;
 			psyche -= 20;
+			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
+			std::cout << "-15 energy" << std::endl;
+			std::cout << "-20 psyche" << std::endl;
 			studyRandomEvent("home", psyche, knowledge, luck);
 			break;
 		}
 		else if (choice == 3)
 		{
-			knowledge += 5 / partialSuccessDivider;
+			int knowledgeIncrease = 5 / partialSuccessDivider;
+			int psycheIncrease = 10 / partialSuccessDivider;
+			knowledge += knowledgeIncrease;
 			energy -= 10;
-			psyche += 10 / partialSuccessDivider;
+			psyche += psycheIncrease;
+			std::cout << "+" << knowledgeIncrease << " knowledge" << std::endl;
+			std::cout << "-10 energy" << std::endl;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			studyRandomEvent("friends", psyche, knowledge, luck);
 			break;
 		}
@@ -444,9 +457,9 @@ void studyMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int
 void eatMenuText()
 {
 	std::cout << "| Where will you eat today?" << std::endl;
-	std::cout << "| [1] At the canteen" << std::endl;
-	std::cout << "| [2] Doner kebap" << std::endl;
-	std::cout << "| [3] Get a pizza" << std::endl;
+	std::cout << "| [1] At the canteen (10 euro)" << std::endl;
+	std::cout << "| [2] Doner kebap (15 euro)" << std::endl;
+	std::cout << "| [3] Get a pizza (20 euro)" << std::endl;
 }
 
 //The user inputs a number to choose one food option.
@@ -457,25 +470,37 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 	{
 		if (choice == 1)
 		{
-			energy += 20 / partialSuccessDivider;
+			int energyIncrease = 20 / partialSuccessDivider;
+			int psycheIncrease = 5 / partialSuccessDivider;
+			energy += energyIncrease;
 			money -= 10;
-			psyche += 5 / partialSuccessDivider;
+			psyche += psycheIncrease;
+			std::cout << "+" << energyIncrease << " energy" << std::endl;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			foodRandomEvent("canteen", psyche, energy, knowledge, luck);
 			break;
 		}
 		else if (choice == 2)
 		{
-			energy += 25 / partialSuccessDivider;
+			int energyIncrease = 25 / partialSuccessDivider;
+			int psycheIncrease = 10 / partialSuccessDivider;
+			energy += energyIncrease;
 			money -= 15;
-			psyche += 10 / partialSuccessDivider;
+			psyche += psycheIncrease;
+			std::cout << "+" << energyIncrease << " energy" << std::endl;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			foodRandomEvent("doner", psyche, energy, knowledge, luck);
 			break;
 		}
 		else if (choice == 3)
 		{
-			energy += 30 / partialSuccessDivider;
+			int energyIncrease = 30 / partialSuccessDivider;
+			int psycheIncrease = 15 / partialSuccessDivider;
+			energy += energyIncrease;
 			money -= 20;
-			psyche += 10 / partialSuccessDivider;
+			psyche += psycheIncrease;
+			std::cout << "+" << energyIncrease << " energy" << std::endl;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			foodRandomEvent("pizza", psyche, energy, knowledge, luck);
 			break;
 		}
@@ -488,8 +513,8 @@ void eatMenuChoice(int partialSuccessDivider, int& knowledge, int& psyche, int& 
 void partyMenuText()
 {
 	std::cout << "| Where will you go out today?" << std::endl;
-	std::cout << "| [1] To the bar" << std::endl;
-	std::cout << "| [2] To the club" << std::endl;
+	std::cout << "| [1] To the bar (20 euro)" << std::endl;
+	std::cout << "| [2] To the club (25 euro)" << std::endl;
 }
 
 //The user inputs a number to choose one party option.
@@ -500,18 +525,24 @@ void partyMenuChoice(int partialSuccessDivider, int& psyche, int& money, int& en
 	{
 		if (choice == 1)
 		{
-			psyche += 30 / partialSuccessDivider;
+			int psycheIncrease = 30 / partialSuccessDivider;
+			psyche += psycheIncrease;
 			energy -= 10;
 			money -= 20;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
+			std::cout << "-10 energy" << std::endl;
 			partyRandomEvent("bar", psyche, energy, money, luck);
 			break;
 		}
 		else if (choice == 2)
 		{
-			psyche += 40 / partialSuccessDivider;
+			int psycheIncrease = 40 / partialSuccessDivider;
+			psyche += psycheIncrease;
 			energy -= 15;
 			money -= 25;
-			partyRandomEvent("bar", psyche, energy, money, luck);
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
+			std::cout << "-15 energy" << std::endl;
+			partyRandomEvent("club", psyche, energy, money, luck);
 			break;
 		}
 		std::cout << "Invalid input!" << std::endl;
@@ -579,16 +610,26 @@ bool actionMenuChoice(int currentDay, int& knowledge, int& money, int& psyche, i
 		}
 		else if (choice == 4)
 		{
-			energy += 50;
-			psyche += 10;
+			int energyIncrease = 30;
+			int psycheIncrease = 5;
+			energy += energyIncrease;
+			psyche += psycheIncrease;
+			std::cout << "+" << energyIncrease << " energy" << std::endl;
+			std::cout << "+" << psycheIncrease << " psyche" << std::endl;
 			sleepRandomEvent(psyche, energy, luck);
 			return false;
 		}
 		else if (choice == 5)
 		{
-			money += 40 / partialSuccessDivider;
-			energy -= 20;
-			psyche -= 10;
+			int moneyIncrease = 40 / partialSuccessDivider;
+			int energyDecrease = 20;
+			int psycheDecrease = 10;
+			money += moneyIncrease;
+			energy -= energyDecrease;
+			psyche -= psycheDecrease;
+			std::cout << "+" << moneyIncrease << " money" << std::endl;
+			std::cout << "-" << energyDecrease << " energy" << std::endl;
+			std::cout << "-" << psycheDecrease << " psyche" << std::endl;
 			workRandomEvent(psyche, money, luck);
 			return false;
 		}
@@ -656,9 +697,15 @@ bool takeExam(int& knowledge, int& psyche, int& energy, int luck, int& examNumbe
 	{
 		std::cout << "Exam #" << examNumber << " has been succesfully passed!" << std::endl;
 		examNumber++;
-		energy -= 20;
-		psyche += 20;
-		knowledge -= 25 + 20 * difficulty;
+		int energyDecrease = 20;
+		int psycheIncrease = 20;
+		int knowledgeDecrease = 25 + 20 * difficulty;
+		energy -= energyDecrease;
+		psyche += psycheIncrease;
+		knowledge -= knowledgeDecrease;
+		std::cout << "-" << energyDecrease << " energy" << std::endl;
+		std::cout << "+" << psycheIncrease << " psyche" << std::endl;
+		std::cout << "Remaining knowledge: " << knowledge << std::endl;
 		return true;
 	}
 	else
@@ -679,7 +726,7 @@ void nextDay(int& currentDay, int& luck)
 {
 	currentDay++;
 	randomGenerator.seed(std::random_device{}());
-	luck = randomGenerator() % 101;
+	luck = randomGenerator() % 100 + 1;
 }
 
 //Resets stats, if they're over a 100, with the remainder of dividing by 100.
@@ -697,6 +744,7 @@ void gameloop(int& currentDay, int& knowledge, int& money, int& psyche, int& ene
 	const int SECOND_EXAM_DATE = examDates[1];
 	const int THIRD_EXAM_DATE = examDates[2];
 	const int FOURTH_EXAM_DATE = examDates[3];
+	std::cout << FOURTH_EXAM_DATE << std::endl;
 	const int FIFTH_EXAM_DATE = examDates[4];
 	while (currentDay <= FIFTH_EXAM_DATE)
 	{
@@ -795,7 +843,7 @@ int main()
 	int money = 0;
 	int psyche = 0;
 	int energy = 0;
-	int luck = randomGenerator() % 101;
+	int luck = randomGenerator() % 100 + 1;
 
 	int examNumber = 1;
 	int difficulty = 1;
