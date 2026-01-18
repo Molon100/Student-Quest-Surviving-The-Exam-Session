@@ -215,7 +215,7 @@ void helpMenu()
 //Returns false, if is not passing out event. Returns true, if is passing out event.
 bool generalRandomEvent(int& psyche, int& money, int luck)
 {
-	if (luck < 3)
+	if (luck >= 96 || luck <= 4)
 	{
 		int eventNumber = luck % 4 + 1;
 		switch (eventNumber)
@@ -276,7 +276,7 @@ void studyRandomEvent(const char* eventSubType, int& psyche, int& knowledge, int
 	}
 	else if (!myStrcmp(eventSubType, "friends"))
 	{
-		if (luck <= 1)
+		if (luck == 1)
 		{
 			std::cout << "A friend showed you a leak of the exam!" << std::endl;
 			std::cout << "+50 knowledge" << std::endl;
